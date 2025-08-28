@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { GlareCard } from '@/components/ui/glare-card';
-import ImageCarousel from '@/components/ui/image-carousel';
+
 import { BentoGrid, BentoCard } from '@/components/ui/bento-grid';
 import { getMockEvents, type Event } from '@/lib/google-sheets';
 

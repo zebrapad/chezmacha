@@ -32,7 +32,7 @@ export async function fetchEventsFromGoogleSheets(): Promise<Event[]> {
     const data = await response.json();
     const rows = data.values || [];
 
-    return rows.map((row: any[], index: number) => ({
+    return rows.map((row: string[], index: number) => ({
       event_id: (index + 1).toString(),
       title: row[0] || '',
       subtitle: row[1] || '',
