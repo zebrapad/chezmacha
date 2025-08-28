@@ -1,0 +1,318 @@
+{
+    "designSystem": {
+      "name": "James Maddisson Dark Entertainment Platform",
+      "version": "1.0",
+      "description": "Dark-themed entertainment/media platform with urban cityscape aesthetic"
+    },
+    
+    "colorPalette": {
+      "primary": {
+        "background": "#0A0A0F",
+        "secondary": "#1A1A2E", 
+        "accent": "#FF6B35"
+      },
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#B0B0C4",
+        "muted": "#808090",
+        "accent": "#FF6B35"
+      },
+      "interactive": {
+        "hover": "#FF8C5A",
+        "active": "#E55A2B",
+        "disabled": "#404050"
+      }
+    },
+  
+    "elementStyling": {
+      "pageBackground": {
+        "base": "#0A0A0F",
+        "overlay": "linear-gradient(180deg, rgba(10,10,15,0.95) 0%, rgba(26,26,46,0.90) 100%)",
+        "cityscape": {
+          "opacity": "0.3",
+          "blendMode": "overlay",
+          "position": "background"
+        }
+      },
+  
+      "navigation": {
+        "background": "rgba(10,10,15,0.95)",
+        "backdropBlur": "10px",
+        "border": "1px solid rgba(255,255,255,0.1)",
+        "links": {
+          "default": "#B0B0C4",
+          "hover": "#FFFFFF",
+          "active": "#FF6B35"
+        },
+        "logo": {
+          "color": "#FFFFFF"
+        }
+      },
+  
+      "heroSection": {
+        "background": "transparent",
+        "textOverlay": {
+          "background": "linear-gradient(135deg, rgba(10,10,15,0.8) 0%, rgba(26,26,46,0.6) 100%)",
+          "backdropBlur": "5px"
+        },
+        "title": {
+          "color": "#FFFFFF",
+          "fontSize": "clamp(2.5rem, 5vw, 4rem)",
+          "fontWeight": "700",
+          "textShadow": "2px 4px 8px rgba(0,0,0,0.7)"
+        },
+        "subtitle": {
+          "color": "#B0B0C4",
+          "fontSize": "1.2rem"
+        }
+      },
+  
+      "videoPlayer": {
+        "container": {
+          "background": "#000000",
+          "border": "2px solid rgba(255,255,255,0.1)",
+          "borderRadius": "8px",
+          "shadow": "0 8px 32px rgba(0,0,0,0.5)"
+        },
+        "controls": {
+          "background": "rgba(0,0,0,0.8)",
+          "backdropBlur": "10px"
+        },
+        "playButton": {
+          "background": "#FF6B35",
+          "hover": "#FF8C5A",
+          "icon": "#FFFFFF"
+        }
+      },
+  
+      "upcomingShows": {
+        "sectionTitle": {
+          "color": "#FFFFFF",
+          "fontSize": "2rem",
+          "fontWeight": "600",
+          "marginBottom": "2rem"
+        },
+        "showCards": {
+          "background": "linear-gradient(135deg, rgba(26,26,46,0.8) 0%, rgba(35,35,55,0.6) 100%)",
+          "backdropBlur": "10px",
+          "border": "1px solid rgba(255,255,255,0.1)",
+          "borderRadius": "12px",
+          "shadow": "0 4px 20px rgba(0,0,0,0.3)",
+          "hover": {
+            "transform": "translateY(-4px)",
+            "shadow": "0 8px 30px rgba(255,107,53,0.2)",
+            "border": "1px solid rgba(255,107,53,0.3)"
+          }
+        },
+        "dateNumbers": {
+          "color": "#FFFFFF",
+          "fontSize": "2.5rem",
+          "fontWeight": "700"
+        },
+        "cityNames": {
+          "color": "#FF6B35",
+          "fontSize": "1.4rem",
+          "fontWeight": "600"
+        },
+        "venues": {
+          "color": "#B0B0C4",
+          "fontSize": "0.9rem"
+        },
+        "statusButtons": {
+          "soldOut": {
+            "background": "transparent",
+            "border": "1px solid #808090",
+            "color": "#808090",
+            "text": "SOLD OUT"
+          },
+          "buyTickets": {
+            "background": "#FF6B35",
+            "hover": "#FF8C5A",
+            "color": "#FFFFFF",
+            "text": "BUY TICKETS"
+          }
+        }
+      },
+  
+      "podcastSection": {
+        "sectionTitle": {
+          "color": "#FFFFFF",
+          "fontSize": "1.5rem",
+          "fontWeight": "600"
+        },
+        "episodeCards": {
+          "background": "linear-gradient(135deg, rgba(26,26,46,0.6) 0%, rgba(35,35,55,0.4) 100%)",
+          "border": "1px solid rgba(255,255,255,0.08)",
+          "borderRadius": "8px",
+          "hover": {
+            "border": "1px solid rgba(255,107,53,0.3)",
+            "transform": "scale(1.02)"
+          }
+        },
+        "episodeThumbnails": {
+          "borderRadius": "6px",
+          "overlay": "linear-gradient(45deg, rgba(255,107,53,0.8) 0%, rgba(255,140,90,0.6) 100%)"
+        },
+        "episodeTitles": {
+          "color": "#FFFFFF",
+          "fontSize": "1.1rem",
+          "fontWeight": "600"
+        },
+        "episodeDetails": {
+          "color": "#B0B0C4",
+          "fontSize": "0.85rem"
+        },
+        "playIcons": {
+          "background": "#FF6B35",
+          "hover": "#FF8C5A",
+          "icon": "#FFFFFF",
+          "borderRadius": "50%"
+        }
+      },
+  
+      "buttons": {
+        "primary": {
+          "background": "#FF6B35",
+          "color": "#FFFFFF",
+          "fontWeight": "600",
+          "padding": "12px 24px",
+          "borderRadius": "6px",
+          "border": "none",
+          "hover": {
+            "background": "#FF8C5A",
+            "transform": "translateY(-1px)",
+            "shadow": "0 4px 12px rgba(255,107,53,0.3)"
+          },
+          "active": {
+            "background": "#E55A2B",
+            "transform": "translateY(0)"
+          }
+        },
+        "secondary": {
+          "background": "transparent",
+          "color": "#B0B0C4",
+          "border": "1px solid rgba(255,255,255,0.2)",
+          "fontWeight": "500",
+          "padding": "10px 20px",
+          "borderRadius": "6px",
+          "hover": {
+            "color": "#FFFFFF",
+            "border": "1px solid rgba(255,255,255,0.4)",
+            "background": "rgba(255,255,255,0.05)"
+          }
+        }
+      },
+  
+      "footer": {
+        "background": "linear-gradient(180deg, rgba(10,10,15,0.95) 0%, rgba(5,5,10,1) 100%)",
+        "border": "1px solid rgba(255,255,255,0.05)",
+        "personalInfo": {
+          "background": "rgba(26,26,46,0.4)",
+          "backdropBlur": "15px",
+          "border": "1px solid rgba(255,255,255,0.1)",
+          "borderRadius": "12px"
+        },
+        "text": {
+          "primary": "#FFFFFF",
+          "secondary": "#B0B0C4"
+        },
+        "socialIcons": {
+          "color": "#B0B0C4",
+          "hover": "#FF6B35",
+          "background": "transparent"
+        }
+      },
+  
+      "animations": {
+        "cardHover": {
+          "duration": "0.3s",
+          "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+          "properties": ["transform", "box-shadow", "border-color"]
+        },
+        "buttonHover": {
+          "duration": "0.2s",
+          "easing": "ease-out",
+          "properties": ["background-color", "transform", "box-shadow"]
+        },
+        "fadeIn": {
+          "duration": "0.6s",
+          "easing": "ease-out"
+        }
+      }
+    },
+  
+    "typography": {
+      "fontFamily": {
+        "primary": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+        "heading": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+      },
+      "hierarchy": {
+        "h1": {
+          "fontSize": "clamp(2.5rem, 5vw, 4rem)",
+          "fontWeight": "700",
+          "lineHeight": "1.1",
+          "color": "#FFFFFF"
+        },
+        "h2": {
+          "fontSize": "2rem",
+          "fontWeight": "600",
+          "lineHeight": "1.2",
+          "color": "#FFFFFF"
+        },
+        "h3": {
+          "fontSize": "1.5rem",
+          "fontWeight": "600",
+          "lineHeight": "1.3",
+          "color": "#FFFFFF"
+        },
+        "body": {
+          "fontSize": "1rem",
+          "fontWeight": "400",
+          "lineHeight": "1.6",
+          "color": "#B0B0C4"
+        },
+        "small": {
+          "fontSize": "0.85rem",
+          "fontWeight": "400",
+          "lineHeight": "1.4",
+          "color": "#808090"
+        }
+      }
+    },
+  
+    "spacing": {
+      "sections": "4rem 0",
+      "cardPadding": "1.5rem",
+      "elementGap": "1rem",
+      "containerMaxWidth": "1200px",
+      "containerPadding": "0 2rem"
+    },
+  
+    "responsiveBreakpoints": {
+      "mobile": "768px",
+      "tablet": "1024px",
+      "desktop": "1200px"
+    },
+  
+    "doNotRules": [
+      "DO NOT apply card background gradients to icons or text elements",
+      "DO NOT use primary button colors for navigation links",
+      "DO NOT apply video player styles to regular content cards",
+      "DO NOT use accent orange (#FF6B35) as background for large areas - only for highlights and CTAs",
+      "DO NOT apply backdrop blur to elements that don't need it - only use for overlays and glass effects",
+      "DO NOT use white text on light backgrounds - maintain contrast ratios",
+      "DO NOT apply hover transforms to static content elements",
+      "DO NOT mix gradient directions within the same component type",
+      "DO NOT use the cityscape image as a direct background - always apply as an overlay with low opacity",
+      "DO NOT apply border radius to full-width sections - only to cards and components"
+    ],
+  
+    "implementationNotes": {
+      "backdropFilter": "Use backdrop-blur for glass morphism effects on overlays",
+      "gradientDirections": "Cards use 135deg, page backgrounds use 180deg",
+      "hoverStates": "All interactive elements should have subtle hover animations",
+      "colorContrast": "Maintain WCAG AA compliance with text contrast ratios",
+      "imageOverlays": "Always use gradient overlays on background images for text readability",
+      "shadowLayers": "Use multiple shadow layers for depth: inner shadow + outer glow effect"
+    }
+  }
