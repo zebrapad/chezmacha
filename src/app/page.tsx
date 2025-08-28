@@ -262,7 +262,10 @@ const PodcastSection = () => {
 const AboutSection = () => (
   <div className="bg-zinc-900 py-16 px-8">
     <div className="max-w-6xl mx-auto">
-      <h2 className="text-sm uppercase text-gray-500 mb-8 tracking-wider">BEHIND THE MIC</h2>
+      <h2 className="text-sm uppercase mb-8 tracking-wider">
+        <span className="text-gray-300">BEHIND THE </span>
+        <span style={{ color: '#ffda65' }}>MIC</span>
+      </h2>
       <div className="relative">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <img src="/asset/optimized_macha1.jpg" alt="MACHA DE RUYVER" className="w-full h-auto rounded-lg object-cover" />
@@ -276,7 +279,11 @@ const AboutSection = () => (
       <div className="mt-8 max-w-2xl mx-auto">
         <div className="text-left">
           <div className="relative mb-6">
-            <h3 className="text-4xl font-bold text-orange-400" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>
+            <h3 className="text-4xl font-bold" style={{ 
+              fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+              color: '#ffda65',
+              opacity: 0.8
+            }}>
               MACHA DE RUYVER
             </h3>
             <img 
