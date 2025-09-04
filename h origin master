@@ -1,0 +1,5 @@
+[33m2ce4cb1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m Add booking functionality, new components, and assets
+[33m5373c82[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix TypeScript build errors: remove unused imports and fix type definitions
+[33mf0cbc55[m Update BEHIND THE MIC section: make MIC yellow, add opacity to name, match image design exactly
+[33m21b765b[m Add BentoGrid component and update Événements passés section with 10 events, matching UPCOMING SHOWS styling
+[33m1b82252[m Initial commit from Create Next App

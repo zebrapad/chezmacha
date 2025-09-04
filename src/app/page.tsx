@@ -429,7 +429,6 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-start space-y-2">
             <div className="flex items-center space-x-2">
               <img src={chezMachaLogo} alt="CHEZ MACHA Logo" className="w-8 h-8 rounded-full" />
-              <span className="text-xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>CHEZ MACHA</span>
             </div>
             <p className="text-sm text-gray-400 mt-4">2025 © CHEZ MACHA</p>
           </div>
