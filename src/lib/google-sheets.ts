@@ -202,6 +202,10 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
     
     // Also try to submit to Google Form (as backup)
     try {
+      // Detect if we're on mobile
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      console.log('📱 Device type:', isMobile ? 'Mobile' : 'Desktop');
+      
       // Try multiple field ID patterns
       const fieldPatterns = [
         ['entry.222569404', 'entry.1891785840'], // Correct IDs from your form
@@ -219,25 +223,49 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
           formData.append(emailField, email);
           formData.append(nameField, name);
           
-          const response = await fetch(NEWSLETTER_FORM_ACTION_URL, {
+          // Different approach for mobile vs desktop
+          const fetchOptions = {
             method: 'POST',
             body: formData,
-            mode: 'no-cors'
-          });
+            mode: 'no-cors' as RequestMode,
+            ...(isMobile && {
+              // Mobile-specific options
+              cache: 'no-cache' as RequestCache,
+              redirect: 'follow' as RequestRedirect,
+            })
+          };
+          
+          console.log(`🔄 Trying pattern: ${emailField}, ${nameField} (${isMobile ? 'Mobile' : 'Desktop'})`);
+          
+          const response = await fetch(NEWSLETTER_FORM_ACTION_URL, fetchOptions);
           
           // If we get a 200 or no error, this pattern worked
           if (response.status === 200 || response.status === 0) {
             console.log(`✅ Google Form submission successful with pattern: ${emailField}, ${nameField}`);
             submitted = true;
             break;
+          } else {
+            console.log(`❌ Pattern ${emailField}, ${nameField} failed with status: ${response.status}`);
           }
         } catch (patternError) {
-          console.log(`Pattern ${emailField}, ${nameField} failed:`, patternError);
+          console.log(`❌ Pattern ${emailField}, ${nameField} failed:`, patternError);
         }
       }
       
       if (!submitted) {
         console.log('❌ All Google Form patterns failed, but data saved locally');
+        if (isMobile) {
+          console.log('📱 Mobile-specific issue detected - this is common with mobile browsers');
+          
+          // Try alternative mobile submission method
+          try {
+            console.log('🔄 Trying alternative mobile submission method...');
+            await submitViaHiddenForm(email, name);
+            console.log('✅ Alternative mobile submission completed');
+          } catch (altError) {
+            console.log('❌ Alternative mobile submission also failed:', altError);
+          }
+        }
       }
       
     } catch (error) {
@@ -373,6 +401,47 @@ export async function testNewsletterSubscription() {
     console.error('❌ Newsletter subscription test failed:', error);
     return false;
   }
+}
+
+// Alternative mobile submission method using hidden form
+async function submitViaHiddenForm(email: string, name: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    try {
+      // Create a hidden form
+      const form = document.createElement('form');
+      form.action = NEWSLETTER_FORM_ACTION_URL;
+      form.method = 'POST';
+      form.target = '_blank';
+      form.style.display = 'none';
+      
+      // Add email field
+      const emailInput = document.createElement('input');
+      emailInput.type = 'hidden';
+      emailInput.name = 'entry.222569404';
+      emailInput.value = email;
+      form.appendChild(emailInput);
+      
+      // Add name field
+      const nameInput = document.createElement('input');
+      nameInput.type = 'hidden';
+      nameInput.name = 'entry.1891785840';
+      nameInput.value = name;
+      form.appendChild(nameInput);
+      
+      // Add form to document and submit
+      document.body.appendChild(form);
+      form.submit();
+      
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(form);
+        resolve();
+      }, 1000);
+      
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 // Function to check newsletter status
