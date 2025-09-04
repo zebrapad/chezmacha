@@ -305,8 +305,8 @@ const UpcomingShows = () => {
                   <Button
                     onClick={() => handleBookingClick(show)}
                     variant="yellow"
-                    size="lg"
-                    className="font-bold uppercase tracking-wider w-full md:w-auto text-sm md:text-base"
+                    size="sm"
+                    className="font-bold uppercase tracking-wider text-sm md:text-base"
                   >
                     {show.status}
                   </Button>
@@ -580,7 +580,7 @@ const Footer = () => {
             <button 
               type="submit"
               disabled={isSubmitting}
-              className="p-3 md:p-3 rounded-full transition-colors text-xl md:text-2xl flex-shrink-0 min-w-[48px] min-h-[48px] md:min-w-[56px] md:min-h-[56px]" 
+              className="p-4 md:p-3 rounded-full transition-colors text-2xl md:text-2xl flex-shrink-0 min-w-[56px] min-h-[56px] md:min-w-[56px] md:min-h-[56px] border-2 border-yellow-400" 
               style={{ backgroundColor: '#ffda65', color: '#000' }}
               title="Subscribe to newsletter"
             >
