@@ -332,18 +332,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       // Check if we have a specific media file for this date
       const availableMedia = ['2025-09-04', '2025-09-18', '2025-09-19', '2025-09-28'];
       if (availableMedia.includes(mediaDate)) {
-        // Check for video first, then image
-        if (mediaDate === '2025-09-04') {
-          return {
-            src: `/asset/guest/${mediaDate}.mp4`,
-            type: 'video'
-          };
-        } else {
-          return {
-            src: `/asset/guest/${mediaDate}.jpeg`,
-            type: 'image'
-          };
-        }
+        // Use image for all events (no more video)
+        return {
+          src: `/asset/guest/${mediaDate}.jpeg`,
+          type: 'image'
+        };
       }
     }
     
