@@ -145,7 +145,7 @@ const Header = () => {
 const HeroSection = () => (
   <div className="relative h-screen w-full">
     <div 
-      className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+      className="absolute inset-0 bg-contain md:bg-cover bg-center bg-no-repeat" 
       style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
     ></div>
     <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -527,32 +527,32 @@ const Footer = () => {
   return (
     <footer className="bg-zinc-800 py-16 px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+        <div className="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
           <div className="flex flex-col items-center md:items-start">
-            <h3 className="text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>SUBSCRIBE</h3>
-            <p className="text-sm uppercase text-gray-400 mt-2 tracking-wider">TO OUR NEWSLETTER</p>
+            <h3 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>SUBSCRIBE</h3>
+            <p className="text-xs md:text-sm uppercase text-gray-400 mt-1 md:mt-2 tracking-wider">TO OUR NEWSLETTER</p>
           </div>
-          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+          <form onSubmit={handleSubmit} className="flex flex-row items-center space-x-2 md:space-x-4 w-full md:w-auto">
             <input 
               type="email" 
-              placeholder="YOUR EMAIL" 
+              placeholder="EMAIL" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-zinc-700 text-white p-3 rounded-full w-full md:w-auto" 
+              className="bg-zinc-700 text-white p-2 md:p-3 rounded-full flex-1 md:flex-none md:w-auto text-sm md:text-base" 
             />
             <input 
               type="text" 
-              placeholder="YOUR NAME" 
+              placeholder="NAME" 
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="bg-zinc-700 text-white p-3 rounded-full w-full md:w-auto" 
+              className="bg-zinc-700 text-white p-2 md:p-3 rounded-full flex-1 md:flex-none md:w-auto text-sm md:text-base" 
             />
             <button 
               type="submit"
               disabled={isSubmitting}
-              className="p-3 rounded-full transition-colors text-2xl" 
+              className="p-2 md:p-3 rounded-full transition-colors text-lg md:text-2xl flex-shrink-0" 
               style={{ backgroundColor: '#ffda65', color: '#000' }}
             >
               {isSubmitting ? '⏳' : '😊'}
