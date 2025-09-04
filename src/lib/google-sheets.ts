@@ -204,6 +204,7 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
     try {
       // Try multiple field ID patterns
       const fieldPatterns = [
+        ['entry.222569404', 'entry.1891785840'], // Correct IDs from your form
         ['entry.2005620554', 'entry.1065046570'], // Original IDs
         ['entry.1234567890', 'entry.0987654321'], // Common patterns
         ['entry.1111111111', 'entry.2222222222'], // Simple patterns
@@ -302,7 +303,8 @@ export async function testGoogleFormFieldIDs() {
   
   // Common field ID patterns to test
   const testPatterns = [
-    ['entry.2005620554', 'entry.1065046570'], // Current IDs
+    ['entry.222569404', 'entry.1891785840'], // Correct IDs from your form
+    ['entry.2005620554', 'entry.1065046570'], // Original IDs
     ['entry.1234567890', 'entry.0987654321'], // Common patterns
     ['entry.1111111111', 'entry.2222222222'], // Simple patterns
     ['entry.1000000000', 'entry.2000000000'], // Round numbers
@@ -366,8 +368,8 @@ export async function syncSubscribersToGoogleForm() {
     for (const subscriber of subscribers) {
       try {
         const formData = new FormData();
-        formData.append('entry.2005620554', subscriber.email);
-        formData.append('entry.1065046570', subscriber.name);
+        formData.append('entry.222569404', subscriber.email);
+        formData.append('entry.1891785840', subscriber.name);
         
         await fetch(NEWSLETTER_FORM_ACTION_URL, {
           method: 'POST',
