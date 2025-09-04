@@ -334,7 +334,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       if (availableMedia.includes(mediaDate)) {
         // Use image for all events (no more video)
         return {
-          src: `https://ai.zebrapad.io/assets_macha/public/asset/guest/${mediaDate}.jpeg`,
+          src: `/asset/guest/${mediaDate}.jpeg`,
           type: 'image'
         };
       }
@@ -342,7 +342,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     
     // Fallback to vizorek image if no specific date media found
     return {
-      src: 'https://ai.zebrapad.io/assets_macha/public/asset/event/optimized_vizorek.jpg',
+      src: '/asset/event/optimized_vizorek.jpg',
       type: 'image'
     };
   };
@@ -357,7 +357,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     
     // For now, return the .jpeg version, but you can extend this to try different extensions
     // In a real implementation, you might want to check which file actually exists
-    return `https://ai.zebrapad.io/assets_macha/public/asset/guest/${baseDate}.jpeg`;
+    return `/asset/guest/${baseDate}.jpeg`;
   };
 
   const handleWhatsAppClick = () => {
