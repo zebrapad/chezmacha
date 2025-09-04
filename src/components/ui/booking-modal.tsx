@@ -88,11 +88,10 @@ const AnimatedCounter: React.FC<{
         className="relative bg-white border border-gray-200 rounded-2xl p-8 shadow-lg overflow-hidden max-w-md w-full"
         animate={{ 
           scale: isAnimating ? 1.02 : 1,
-          rotateX: isAnimating ? 2 : 0
+          rotateX: isAnimating ? 2 : 0,n          opacity: 1
         }}
         transition={{ type: "spring", stiffness: 400, damping: 25 }}
         initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
       >
         {/* Close Button */}
