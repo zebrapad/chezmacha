@@ -4,6 +4,15 @@
 /* Ensure logo has transparent background */
 img[src*="LOGO.svg"] {
   background-color: transparent !important;
+  background: none !important;
+  background-image: none !important;
+}
+
+/* Force transparent background for all logo images */
+img[alt*="CHEZ MACHA"], img[alt*="Logo"] {
+  background-color: transparent !important;
+  background: none !important;
+  background-image: none !important;
 }
 
 @custom-variant dark (&:is(.dark *));
