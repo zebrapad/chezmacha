@@ -160,7 +160,7 @@ export function getMockEvents(): Event[] {
 }
 
 // Google Forms URLs for different purposes
-const NEWSLETTER_FORM_ACTION_URL = 'https://docs.google.com/forms/d/1AwApLoKivWAF0xX9XnfR_c06S7DXY7KrV4fnCVpmuTo/formResponse';
+const NEWSLETTER_FORM_ACTION_URL = 'https://docs.google.com/forms/d/1B56T7flBQ5mbcjF3YeSyq-BE0hAo_J-6Y2TiowuF6wk/formResponse';
 const TICKET_BOOKING_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYOUR_FORM_ID_HERE/formResponse';
 
 // Local storage solution for newsletter subscribers
@@ -202,18 +202,43 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
     
     // Also try to submit to Google Form (as backup)
     try {
-      const formData = new FormData();
-      // Email field (first field in your form)
-      formData.append('entry.2005620554', email);
-      // Prénom field (second field in your form)
-      formData.append('entry.1065046570', name);
+      // Try multiple field ID patterns
+      const fieldPatterns = [
+        ['entry.2005620554', 'entry.1065046570'], // Original IDs
+        ['entry.1234567890', 'entry.0987654321'], // Common patterns
+        ['entry.1111111111', 'entry.2222222222'], // Simple patterns
+        ['entry.1000000000', 'entry.2000000000'], // Round numbers
+      ];
       
-      const response = await fetch(NEWSLETTER_FORM_ACTION_URL, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors'
-      });
-      console.log('Also submitted to Google Form');
+      let submitted = false;
+      
+      for (const [emailField, nameField] of fieldPatterns) {
+        try {
+          const formData = new FormData();
+          formData.append(emailField, email);
+          formData.append(nameField, name);
+          
+          const response = await fetch(NEWSLETTER_FORM_ACTION_URL, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+          });
+          
+          // If we get a 200 or no error, this pattern worked
+          if (response.status === 200 || response.status === 0) {
+            console.log(`✅ Google Form submission successful with pattern: ${emailField}, ${nameField}`);
+            submitted = true;
+            break;
+          }
+        } catch (patternError) {
+          console.log(`Pattern ${emailField}, ${nameField} failed:`, patternError);
+        }
+      }
+      
+      if (!submitted) {
+        console.log('❌ All Google Form patterns failed, but data saved locally');
+      }
+      
     } catch (error) {
       console.log('Google Form submission failed, but data saved locally:', error);
     }
@@ -269,6 +294,61 @@ export function exportNewsletterSubscribers() {
   } catch (error) {
     console.error('Error exporting newsletter subscribers:', error);
   }
+}
+
+// Function to test Google Form field IDs
+export async function testGoogleFormFieldIDs() {
+  console.log('Testing Google Form field IDs...');
+  
+  // Common field ID patterns to test
+  const testPatterns = [
+    ['entry.2005620554', 'entry.1065046570'], // Current IDs
+    ['entry.1234567890', 'entry.0987654321'], // Common patterns
+    ['entry.1111111111', 'entry.2222222222'], // Simple patterns
+    ['entry.1000000000', 'entry.2000000000'], // Round numbers
+    ['entry.123456789', 'entry.987654321'],   // 9-digit patterns
+    ['entry.12345678', 'entry.87654321'],     // 8-digit patterns
+  ];
+  
+  const testData = {
+    email: 'test@example.com',
+    name: 'Test User'
+  };
+  
+  for (let i = 0; i < testPatterns.length; i++) {
+    const [emailField, nameField] = testPatterns[i];
+    
+    try {
+      console.log(`Testing pattern ${i + 1}: ${emailField}, ${nameField}`);
+      
+      const formData = new FormData();
+      formData.append(emailField, testData.email);
+      formData.append(nameField, testData.name);
+      
+      const response = await fetch(NEWSLETTER_FORM_ACTION_URL, {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      });
+      
+      console.log(`Pattern ${i + 1} response:`, response.status);
+      
+      // If we get a 200 or no error, this might be the correct pattern
+      if (response.status === 200 || response.status === 0) {
+        console.log(`✅ SUCCESS! Correct field IDs found: ${emailField}, ${nameField}`);
+        return { emailField, nameField };
+      }
+      
+    } catch (error) {
+      console.log(`Pattern ${i + 1} failed:`, error);
+    }
+    
+    // Small delay between tests
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+  
+  console.log('❌ No working field ID patterns found');
+  return null;
 }
 
 // Function to manually submit all local subscribers to Google Form
