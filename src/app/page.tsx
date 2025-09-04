@@ -329,9 +329,14 @@ const UpcomingShows = () => {
                     {show.status}
                   </span>
                 ) : show.status === 'CLOSED' ? (
-                  <span className="bg-gray-600 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-full text-xs md:text-sm uppercase tracking-wider w-full md:w-auto text-center block">
+                  <Button
+                    onClick={() => handleBookingClick(show)}
+                    variant="outline"
+                    size="sm"
+                    className="font-bold uppercase tracking-wider text-sm md:text-base bg-gray-600 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-700"
+                  >
                     {show.status}
-                  </span>
+                  </Button>
                 ) : (
                   <Button
                     onClick={() => handleBookingClick(show)}

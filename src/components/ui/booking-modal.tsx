@@ -473,7 +473,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <strong>Cet événement est terminé</strong>
               </p>
               <p className="text-gray-500 text-sm text-center">
-                Vous pouvez voir qui était présent ci-dessus
+                Qui étaient nos humoristes du jour?
               </p>
             </div>
           ) : (
