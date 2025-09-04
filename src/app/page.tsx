@@ -2,11 +2,10 @@
 
 import React from 'react';
 
-import { BentoGrid, BentoCard } from '@/components/ui/bento-grid';
 import { Button } from '@/components/ui/button';
 import { BookingModal } from '@/components/ui/booking-modal';
 import { Carousel } from '@/components/ui/carousel';
-import { getEvents, getMockEvents, type Event, addNewsletterSubscriber } from '@/lib/google-sheets';
+import { getEvents, type Event, addNewsletterSubscriber } from '@/lib/google-sheets';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -169,7 +168,7 @@ const UpcomingShows = () => {
   } | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const handleBookingClick = (show: any) => {
+  const handleBookingClick = (show: { title: string; day: string; monthYear: string; place: string }) => {
     setSelectedEvent({
       title: show.title,
       date: `${show.day} ${show.monthYear}`,
@@ -186,7 +185,6 @@ const UpcomingShows = () => {
   React.useEffect(() => {
     const loadEvents = async () => {
       const events = await getEvents();
-      const today = new Date();
       
       // Filter events with status "not yet" and get first 4
       const upcomingEvents = events.filter((event: Event) => {
@@ -378,15 +376,15 @@ const AboutSection = () => {
       <br /><br />
       Humoriste, animatrice radio et maman solo, Macha a choisi de faire de son micro une arme massive de bonne humeur.
       <br /><br />
-      Le matin, elle réveille Bruxelles sur BXFM avec son énergie, ses blagues (et son café XXL, sans lequel rien ne serait possible). Une fois par semaine, elle ouvre son micro à La Bande à Macha : cinq humoristes qu'elle met en avant, parce qu'elle croit dur comme fer qu'on rit plus fort ensemble que tout seul.
+      Le matin, elle réveille Bruxelles sur BXFM avec son énergie, ses blagues (et son café XXL, sans lequel rien ne serait possible). Une fois par semaine, elle ouvre son micro à La Bande à Macha : cinq humoristes qu&apos;elle met en avant, parce qu&apos;elle croit dur comme fer qu&apos;on rit plus fort ensemble que tout seul.
       <br /><br />
-      Le soir, elle invente des scènes là où personne ne les attend : un club de paddle, une péniche, un bar new-yorkais… Ses soirées stand-up nomades sont devenues des rendez-vous où l'on vient autant pour rigoler que pour partager un vrai moment humain.
+      Le soir, elle invente des scènes là où personne ne les attend : un club de paddle, une péniche, un bar new-yorkais… Ses soirées stand-up nomades sont devenues des rendez-vous où l&apos;on vient autant pour rigoler que pour partager un vrai moment humain.
       <br /><br />
-      Macha, c'est ce mélange unique : sensible mais piquante, drôle mais authentique, légère mais profonde. Bref, elle commence vos journées en sourire et les termine en éclat de rire.
+      Macha, c&apos;est ce mélange unique : sensible mais piquante, drôle mais authentique, légère mais profonde. Bref, elle commence vos journées en sourire et les termine en éclat de rire.
     </>
   );
 
-  const quote = "Chez moi, on rit fort, on vit vrai et on repart plus léger.";
+  const quote = &quot;Chez moi, on rit fort, on vit vrai et on repart plus léger.&quot;;
 
   return (
     <div className="bg-zinc-900 py-16 px-8">
@@ -470,7 +468,7 @@ const Footer = () => {
       } else {
         setMessage('Erreur lors de l\'inscription. Veuillez réessayer.');
       }
-    } catch (error) {
+    } catch {
       setMessage('Erreur lors de l\'inscription. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);

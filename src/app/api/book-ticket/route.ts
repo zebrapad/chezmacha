@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     formData.append('entry.1234567898', new Date().toISOString()); // Timestamp
 
     // Submit to Google Forms
-    const response = await fetch(GOOGLE_FORM_ACTION_URL, {
+    await fetch(GOOGLE_FORM_ACTION_URL, {
       method: 'POST',
       body: formData,
       mode: 'no-cors' // Required for Google Forms

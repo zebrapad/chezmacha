@@ -184,7 +184,7 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
     const existingSubscribers = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
     
     // Check if email already exists
-    const emailExists = existingSubscribers.some((sub: any) => sub.email.toLowerCase() === email.toLowerCase());
+    const emailExists = existingSubscribers.some((sub: { email: string }) => sub.email.toLowerCase() === email.toLowerCase());
     
     if (emailExists) {
       console.log('Email already exists in newsletter list');
@@ -212,7 +212,7 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
         mode: 'no-cors'
       });
       console.log('Also submitted to Google Form');
-    } catch (formError) {
+    } catch {
       console.log('Google Form submission failed, but data saved locally');
     }
     
@@ -248,7 +248,7 @@ export function exportNewsletterSubscribers() {
     
     // Create CSV content
     const headers = 'Email,Name,Date,Timestamp\n';
-    const csvContent = headers + subscribers.map((sub: any) => 
+    const csvContent = headers + subscribers.map((sub: { email: string; name: string; date: string; timestamp: string }) => 
       `"${sub.email}","${sub.name}","${sub.date}","${sub.timestamp}"`
     ).join('\n');
     
@@ -303,7 +303,7 @@ export async function submitTicketBooking(booking: TicketBooking): Promise<boole
     formData.append('entry.1234567898', booking.timestamp); // Timestamp
     
     // Submit to Google Forms
-    const response = await fetch(TICKET_BOOKING_FORM_ACTION_URL, {
+    await fetch(TICKET_BOOKING_FORM_ACTION_URL, {
       method: 'POST',
       body: formData,
       mode: 'no-cors' // Required for Google Forms
@@ -368,7 +368,7 @@ export function exportTicketBookings() {
     
     // Create CSV content
     const headers = 'Event Title,Event Date,Event Place,Customer Name,Customer Email,Customer Phone,Number of Tickets,Special Requests,Timestamp,Submitted At\n';
-    const csvContent = headers + bookings.map((booking: any) => 
+    const csvContent = headers + bookings.map((booking: { eventTitle: string; eventDate: string; eventPlace: string; customerName: string; customerEmail: string; customerPhone?: string; numberOfTickets: number; specialRequests?: string; timestamp: string; submittedAt: string }) => 
       `"${booking.eventTitle}","${booking.eventDate}","${booking.eventPlace}","${booking.customerName}","${booking.customerEmail}","${booking.customerPhone || ''}","${booking.numberOfTickets}","${booking.specialRequests || ''}","${booking.timestamp}","${booking.submittedAt}"`
     ).join('\n');
     
