@@ -19,7 +19,7 @@ const Header = () => {
     <header className="fixed -top-8 left-0 w-full flex justify-between items-center pl-0 pr-4 md:pl-1 md:pr-8 z-50">
       <div className="flex items-center">
         <img 
-          src="/LOGO.svg?v=2" 
+          src="/LOGO.svg?v=3" 
           alt="CHEZ MACHA Logo" 
           className="h-32 w-32 md:h-64 md:w-64 object-contain"
         />
@@ -71,7 +71,7 @@ const Header = () => {
               {/* Mobile Menu Header */}
               <div className="flex justify-between items-center p-6 border-b border-zinc-700">
                 <img 
-                  src="/LOGO.svg?v=2" 
+                  src="/LOGO.svg?v=3" 
                   alt="CHEZ MACHA Logo" 
                   className="h-24 w-24 object-contain"
                 />
