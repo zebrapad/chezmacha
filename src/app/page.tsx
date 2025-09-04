@@ -240,7 +240,7 @@ const UpcomingShows = () => {
   const displayedShows = showAllShows ? allShows : upcomingShows;
 
   return (
-    <div className="bg-zinc-900 py-16 px-8">
+    <div id="upcoming-shows" className="bg-zinc-900 py-16 px-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
           <h1 className="text-6xl md:text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>
@@ -383,7 +383,7 @@ const PodcastSection = () => {
   ];
 
   return (
-    <div className="bg-zinc-900 py-16 px-8">
+    <div id="evenements-passes" className="bg-zinc-900 py-16 px-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-12">
           <h2 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
@@ -426,7 +426,7 @@ const AboutSection = () => {
   const quote = "Chez moi, on rit fort, on vit vrai et on repart plus léger.";
 
   return (
-    <div className="bg-zinc-900 py-16 px-8">
+    <div id="macha-de-ruyver" className="bg-zinc-900 py-16 px-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-sm uppercase mb-8 tracking-wider">
           <span className="text-gray-300">BEHIND THE </span>
@@ -576,11 +576,9 @@ const Footer = () => {
             <p className="text-sm text-gray-400 mt-4">2025 © CHEZ MACHA</p>
           </div>
           <nav className="mt-8 md:mt-0 flex flex-wrap justify-center md:justify-end space-x-4 text-sm uppercase tracking-wider">
-            <a href="#" className="hover:text-gray-400">Home</a>
-            <a href="#" className="hover:text-gray-400">Shows</a>
-            <a href="#" className="hover:text-gray-400">Podcast</a>
-            <a href="#" className="hover:text-gray-400">Blog</a>
-            <a href="#" className="hover:text-gray-400">Booking</a>
+            <a href="#upcoming-shows" className="hover:text-gray-400">Shows</a>
+            <a href="#evenements-passes" className="hover:text-gray-400">Événements passés</a>
+            <a href="#macha-de-ruyver" className="hover:text-gray-400">About</a>
           </nav>
         </div>
       </div>
@@ -590,7 +588,7 @@ const Footer = () => {
 
 const App = () => {
   return (
-    <div className="bg-zinc-900 text-white font-sans overflow-hidden">
+    <div className="bg-zinc-900 text-white font-sans overflow-hidden scroll-smooth">
       <Header />
       <HeroSection />
       <UpcomingShows />
