@@ -209,14 +209,16 @@ const UpcomingShows = () => {
     title: string;
     date: string;
     place: string;
+    status: string;
   } | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const handleBookingClick = (show: { title: string; day: string; monthYear: string; place: string }) => {
+  const handleBookingClick = (show: { title: string; day: string; monthYear: string; place: string; status: string }) => {
     setSelectedEvent({
       title: show.title,
       date: `${show.day} ${show.monthYear}`,
       place: show.place,
+      status: show.status,
     });
     setIsModalOpen(true);
   };
@@ -238,16 +240,39 @@ const UpcomingShows = () => {
     const loadEvents = async () => {
       const events = await getEvents();
       
-      // Filter events with status "not yet"
-      const upcomingEvents = events.filter((event: Event) => {
-        return event.flag_active && event.status === 'not yet';
+      // Filter all active events (both upcoming and past)
+      const allActiveEvents = events.filter((event: Event) => {
+        return event.flag_active;
       });
 
-      const formattedShows = upcomingEvents.map((event: Event) => {
+      // Remove duplicates based on title and date combination
+      const uniqueEvents = allActiveEvents.filter((event: Event, index: number, self: Event[]) => {
+        return index === self.findIndex((e: Event) => 
+          e.title === event.title && e.date === event.date
+        );
+      });
+
+      const formattedShows = uniqueEvents.map((event: Event) => {
         const eventDate = new Date(event.date);
         const day = eventDate.getDate().toString().padStart(2, '0');
         const month = eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
         const year = eventDate.getFullYear();
+        
+        // Check if event is in the past
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Reset time to start of day
+        eventDate.setHours(0, 0, 0, 0); // Reset event date time to start of day
+        const isPastEvent = eventDate < today;
+        
+        // Determine status based on event state
+        let status: string;
+        if (isPastEvent) {
+          status = 'CLOSED';
+        } else if (event.status === 'full') {
+          status = 'SOLD OUT';
+        } else {
+          status = 'BUY TICKETS';
+        }
         
         return {
           day,
@@ -255,8 +280,8 @@ const UpcomingShows = () => {
           title: event.title,
           subtitle: event.subtitle,
           place: event.place,
-          status: event.status === 'full' ? 'SOLD OUT' : 'BUY TICKETS',
-          link: event.status === 'full' ? undefined : '#',
+          status,
+          link: (isPastEvent || event.status === 'full') ? undefined : '#',
         };
       });
 
@@ -303,6 +328,10 @@ const UpcomingShows = () => {
                   <span className="bg-red-600 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-full text-xs md:text-sm uppercase tracking-wider w-full md:w-auto text-center block">
                     {show.status}
                   </span>
+                ) : show.status === 'CLOSED' ? (
+                  <span className="bg-gray-600 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-full text-xs md:text-sm uppercase tracking-wider w-full md:w-auto text-center block">
+                    {show.status}
+                  </span>
                 ) : (
                   <Button
                     onClick={() => handleBookingClick(show)}
@@ -346,6 +375,7 @@ const UpcomingShows = () => {
           eventTitle={selectedEvent.title}
           eventDate={selectedEvent.date}
           eventPlace={selectedEvent.place}
+          eventStatus={selectedEvent.status}
         />
       )}
     </div>

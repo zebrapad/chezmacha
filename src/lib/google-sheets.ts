@@ -79,7 +79,7 @@ export function getMockEvents(): Event[] {
       event_id: '1',
       title: 'TENNIS CHURCHILL',
       subtitle: 'Festival rire & bbq',
-      date: '2025-09-04',
+      date: '2024-12-15',
       place: 'Tennis Churchill, France',
       guests: 100,
       status: 'not yet',
@@ -89,7 +89,7 @@ export function getMockEvents(): Event[] {
       event_id: '2',
       title: 'CÔTÉ MEUSE',
       subtitle: 'Stand up & spaguettis',
-      date: '2025-09-18',
+      date: '2024-12-20',
       place: 'Côte Meuse, France',
       guests: 80,
       status: 'not yet',
@@ -99,7 +99,7 @@ export function getMockEvents(): Event[] {
       event_id: '3',
       title: 'WINE CLUB',
       subtitle: 'Stand up & cheese & wine',
-      date: '2025-09-19',
+      date: '2024-12-25',
       place: 'Wine Club, France',
       guests: 60,
       status: 'not yet',
@@ -109,7 +109,7 @@ export function getMockEvents(): Event[] {
       event_id: '4',
       title: 'ALICE BAR',
       subtitle: 'Stand-up & Planchas & Cocktails',
-      date: '2025-09-25',
+      date: '2024-12-30',
       place: 'Alice Bar, France',
       guests: 90,
       status: 'not yet',
@@ -442,6 +442,32 @@ async function submitViaHiddenForm(email: string, name: string): Promise<void> {
       reject(error);
     }
   });
+}
+
+// Function to test Google Sheets API and see actual data
+export async function testGoogleSheetsAPI() {
+  console.log('🧪 Testing Google Sheets API...');
+  console.log('API Key configured:', !!GOOGLE_SHEETS_API_KEY);
+  console.log('Spreadsheet ID configured:', !!SPREADSHEET_ID);
+  
+  if (!GOOGLE_SHEETS_API_KEY || !SPREADSHEET_ID) {
+    console.log('❌ Environment variables not set - using mock data');
+    const mockEvents = getMockEvents();
+    console.log('📋 Mock events:', mockEvents);
+    return { source: 'mock', events: mockEvents };
+  }
+  
+  try {
+    console.log('🔄 Fetching from Google Sheets...');
+    const events = await fetchEventsFromGoogleSheets();
+    console.log('✅ Google Sheets API response:', events);
+    return { source: 'google-sheets', events };
+  } catch (error) {
+    console.error('❌ Google Sheets API error:', error);
+    const mockEvents = getMockEvents();
+    console.log('📋 Falling back to mock events:', mockEvents);
+    return { source: 'mock-fallback', events: mockEvents };
+  }
 }
 
 // Function to check newsletter status
