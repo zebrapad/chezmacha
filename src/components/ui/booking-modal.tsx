@@ -334,7 +334,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       if (availableMedia.includes(mediaDate)) {
         // Use image for all events (no more video)
         return {
-          src: `/asset/guest/${mediaDate}.jpeg`,
+          src: `https://ai.zebrapad.io/assets_macha/public/asset/guest/${mediaDate}.jpeg`,
           type: 'image'
         };
       }
@@ -342,7 +342,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     
     // Fallback to vizorek image if no specific date media found
     return {
-      src: '/asset/event/optimized_vizorek.jpg',
+      src: 'https://ai.zebrapad.io/assets_macha/public/asset/event/optimized_vizorek.jpg',
       type: 'image'
     };
   };
@@ -357,7 +357,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     
     // For now, return the .jpeg version, but you can extend this to try different extensions
     // In a real implementation, you might want to check which file actually exists
-    return `/asset/guest/${baseDate}.jpeg`;
+    return `https://ai.zebrapad.io/assets_macha/public/asset/guest/${baseDate}.jpeg`;
   };
 
   const handleWhatsAppClick = () => {
@@ -394,7 +394,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-zinc-900 rounded-lg max-w-md w-full p-6 relative">
+      <div className="bg-zinc-900 rounded-lg max-w-4xl w-full p-6 relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl"
@@ -416,7 +416,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 return (
                   <video 
                     src={media.src}
-                    className="w-full h-64 object-contain rounded-lg bg-black"
+                    className="w-full h-[32rem] object-contain rounded-lg bg-black"
                     controls
                     autoPlay
                     muted
@@ -431,7 +431,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <img 
                     src={media.src} 
                     alt={`Event booking for ${eventTitle}`} 
-                    className="w-full h-64 object-contain rounded-lg bg-black"
+                    className="w-full h-[32rem] object-contain rounded-lg bg-black"
                   />
                 );
               }
