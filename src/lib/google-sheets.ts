@@ -203,10 +203,10 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
     // Also try to submit to Google Form (as backup)
     try {
       const formData = new FormData();
-      formData.append('entry.2005620554', email);
-      formData.append('entry.1065046570', name);
+      // Email field (first field in your form)n      formData.append('entry.2005620554', email);
+      // Prénom field (second field in your form)n      formData.append('entry.1065046570', name);
       
-      await fetch(GOOGLE_FORM_ACTION_URL, {
+      await fetch(NEWSLETTER_FORM_ACTION_URL, {
         method: 'POST',
         body: formData,
         mode: 'no-cors'
@@ -367,9 +367,9 @@ export function exportTicketBookings() {
     }
     
     // Create CSV content
-    const headers = 'Event Title,Event Date,Event Place,Customer Name,Customer Email,Customer Phone,Number of Tickets,Special Requests,Timestamp,Submitted At\n';
-    const csvContent = headers + bookings.map((booking: { eventTitle: string; eventDate: string; eventPlace: string; customerName: string; customerEmail: string; customerPhone?: string; numberOfTickets: number; specialRequests?: string; timestamp: string; submittedAt: string }) => 
-      `"${booking.eventTitle}","${booking.eventDate}","${booking.eventPlace}","${booking.customerName}","${booking.customerEmail}","${booking.customerPhone || ''}","${booking.numberOfTickets}","${booking.specialRequests || ''}","${booking.timestamp}","${booking.submittedAt}"`
+    const headers = 'Event Title,Event Date,Event Place,Customer Name,Customer Email,Customer Phone,Number of Tickets,Special Requests,Timestamp\n';
+    const csvContent = headers + bookings.map((booking: TicketBooking) => 
+      `"${booking.eventTitle}","${booking.eventDate}","${booking.eventPlace}","${booking.customerName}","${booking.customerEmail}","${booking.customerPhone || ''}","${booking.numberOfTickets}","${booking.specialRequests || ''}","${booking.timestamp}"`
     ).join('\n');
     
     // Create and download file

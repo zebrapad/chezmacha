@@ -384,7 +384,7 @@ const AboutSection = () => {
     </>
   );
 
-  const quote = &quot;Chez moi, on rit fort, on vit vrai et on repart plus léger.&quot;;
+  const quote = "Chez moi, on rit fort, on vit vrai et on repart plus léger.";
 
   return (
     <div className="bg-zinc-900 py-16 px-8">
@@ -427,7 +427,7 @@ const AboutSection = () => {
             {showFullStory && (
               <div className="mb-6 p-6 bg-zinc-800 rounded-lg border-l-4" style={{ borderLeftColor: '#ffda65' }}>
                 <p className="text-lg italic text-gray-200 text-center" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>
-                  "{quote}"
+                  &ldquo;{quote}&rdquo;
                 </p>
               </div>
             )}
