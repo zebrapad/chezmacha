@@ -353,6 +353,46 @@ export async function testGoogleFormFieldIDs() {
   return null;
 }
 
+// Function to test newsletter subscription
+export async function testNewsletterSubscription() {
+  console.log('🧪 Testing newsletter subscription...');
+  
+  const testEmail = 'test@example.com';
+  const testName = 'Test User';
+  
+  try {
+    const result = await addNewsletterSubscriber(testEmail, testName);
+    console.log('✅ Newsletter subscription test result:', result);
+    
+    // Check local storage
+    const subscribers = getNewsletterSubscribers();
+    console.log('📊 Local subscribers:', subscribers);
+    
+    return result;
+  } catch (error) {
+    console.error('❌ Newsletter subscription test failed:', error);
+    return false;
+  }
+}
+
+// Function to check newsletter status
+export function checkNewsletterStatus() {
+  console.log('📊 Newsletter Status Check:');
+  console.log('Form URL:', NEWSLETTER_FORM_ACTION_URL);
+  console.log('Field IDs: entry.222569404 (email), entry.1891785840 (name)');
+  
+  const subscribers = getNewsletterSubscribers();
+  console.log('📈 Total local subscribers:', subscribers.length);
+  console.log('📋 All subscribers:', subscribers);
+  
+  return {
+    formUrl: NEWSLETTER_FORM_ACTION_URL,
+    fieldIds: ['entry.222569404', 'entry.1891785840'],
+    subscriberCount: subscribers.length,
+    subscribers: subscribers
+  };
+}
+
 // Function to manually submit all local subscribers to Google Form
 export async function syncSubscribersToGoogleForm() {
   try {
