@@ -1,6 +1,6 @@
 // Google Sheets API configuration
-const GOOGLE_SHEETS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_API_KEY || 'AIzaSyCwqEsj3IfcENysnDo245rN0EljdfspvNw';
-const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID || '1r8xo24j4nO6xccE9rQaf51cPG23kRoFub6VFN_cn7mk';
+const GOOGLE_SHEETS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_API_KEY;
+const SPREADSHEET_ID = process.env.NEXT_PUBLIC_SPREADSHEET_ID;
 const RANGE = 'Events!A2:F'; // Assuming headers are in row 1, data starts from row 2
 
 export interface Event {
@@ -22,8 +22,8 @@ export interface NewsletterSubscriber {
 
 export async function fetchEventsFromGoogleSheets(): Promise<Event[]> {
   if (!GOOGLE_SHEETS_API_KEY || !SPREADSHEET_ID) {
-    console.error('Google Sheets API key or Spreadsheet ID not configured');
-    return [];
+    console.warn('Google Sheets API key or Spreadsheet ID not configured - using mock data');
+    return getMockEvents();
   }
 
   try {
