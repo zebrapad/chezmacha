@@ -145,7 +145,7 @@ const Header = () => {
 const HeroSection = () => (
   <div className="relative h-screen w-full">
     <div 
-      className="absolute inset-0 bg-cover bg-center" 
+      className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
       style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
     ></div>
     <div className="absolute inset-0 bg-black opacity-40"></div>
@@ -240,37 +240,37 @@ const UpcomingShows = () => {
   const displayedShows = showAllShows ? allShows : upcomingShows;
 
   return (
-    <div id="upcoming-shows" className="bg-zinc-900 py-16 px-8">
+    <div id="upcoming-shows" className="bg-zinc-900 py-8 md:py-16 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
-        <div className="mb-12">
-          <h1 className="text-6xl md:text-7xl font-extrabold text-white mb-4" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>
+        <div className="mb-8 md:mb-12">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-2 md:mb-4" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>
             CHEZ MACHA
           </h1>
-          <h2 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
             UPCOMING SHOWS
           </h2>
         </div>
         
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {displayedShows.map((show, index) => (
-            <div key={index} className="flex flex-col md:flex-row justify-between items-start md:items-center py-6 border-b border-zinc-700 last:border-b-0 hover:bg-zinc-800 hover:border-zinc-600 transition-all duration-300 rounded-lg px-4 -mx-4">
-              <div className="flex items-center space-x-8 w-full md:w-auto">
+            <div key={index} className="flex flex-col md:flex-row justify-between items-start md:items-center py-4 md:py-6 border-b border-zinc-700 last:border-b-0 hover:bg-zinc-800 hover:border-zinc-600 transition-all duration-300 rounded-lg px-2 md:px-4 -mx-2 md:-mx-4">
+              <div className="flex items-center space-x-4 md:space-x-8 w-full md:w-auto">
                 <div className="flex flex-col items-center">
-                  <span className="text-5xl font-light" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>{show.day}</span>
-                  <span className="text-sm text-gray-400 uppercase tracking-wider">{show.monthYear}</span>
+                  <span className="text-3xl md:text-5xl font-light" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>{show.day}</span>
+                  <span className="text-xs md:text-sm text-gray-400 uppercase tracking-wider">{show.monthYear}</span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center space-x-4">
-                    <h3 className="text-3xl font-bold text-white" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>{show.title}</h3>
-                    <span className="text-gray-400 text-lg">•</span>
-                    <p className="text-gray-400 text-lg">{show.place}</p>
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-col md:flex-row md:items-center space-y-1 md:space-y-0 md:space-x-4">
+                    <h3 className="text-lg md:text-2xl lg:text-3xl font-bold text-white truncate" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>{show.title}</h3>
+                    <span className="text-gray-400 text-sm md:text-lg hidden md:inline">•</span>
+                    <p className="text-gray-400 text-sm md:text-lg truncate">{show.place}</p>
                   </div>
-                  <p className="text-gray-300 text-lg mt-2">{show.subtitle}</p>
+                  <p className="text-gray-300 text-sm md:text-lg mt-1 md:mt-2 line-clamp-2">{show.subtitle}</p>
                 </div>
               </div>
-              <div className="mt-6 md:mt-0">
+              <div className="mt-4 md:mt-0 w-full md:w-auto">
                 {show.status === 'SOLD OUT' ? (
-                  <span className="bg-red-600 text-white font-bold py-3 px-8 rounded-full text-sm uppercase tracking-wider">
+                  <span className="bg-red-600 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-full text-xs md:text-sm uppercase tracking-wider w-full md:w-auto text-center block">
                     {show.status}
                   </span>
                 ) : (
@@ -278,7 +278,7 @@ const UpcomingShows = () => {
                     onClick={() => handleBookingClick(show)}
                     variant="yellow"
                     size="lg"
-                    className="font-bold uppercase tracking-wider"
+                    className="font-bold uppercase tracking-wider w-full md:w-auto text-sm md:text-base"
                   >
                     {show.status}
                   </Button>
@@ -288,11 +288,11 @@ const UpcomingShows = () => {
           ))}
         </div>
         
-        <div className="mt-12">
+        <div className="mt-8 md:mt-12">
           {!showAllShows ? (
             <button 
               onClick={handleShowAllShows}
-              className="bg-transparent font-bold py-4 px-12 rounded-full border-2 uppercase tracking-wider transition-colors hover:bg-yellow-500 hover:text-black" 
+              className="bg-transparent font-bold py-3 md:py-4 px-8 md:px-12 rounded-full border-2 uppercase tracking-wider transition-colors hover:bg-yellow-500 hover:text-black text-sm md:text-base" 
               style={{ color: '#ffda65', borderColor: '#ffda65' }}
             >
               ALL SHOWS
@@ -300,7 +300,7 @@ const UpcomingShows = () => {
           ) : (
             <button 
               onClick={handleShowLessShows}
-              className="bg-transparent font-bold py-4 px-12 rounded-full border-2 uppercase tracking-wider transition-colors hover:bg-yellow-500 hover:text-black" 
+              className="bg-transparent font-bold py-3 md:py-4 px-8 md:px-12 rounded-full border-2 uppercase tracking-wider transition-colors hover:bg-yellow-500 hover:text-black text-sm md:text-base" 
               style={{ color: '#ffda65', borderColor: '#ffda65' }}
             >
               SHOW LESS
