@@ -16,24 +16,24 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-4 left-0 w-full flex justify-between items-center px-4 md:px-8 z-50">
+    <header className="fixed -top-8 left-0 w-full flex justify-between items-center pl-0 pr-4 md:pl-1 md:pr-8 z-50">
       <div className="flex items-center">
         <img 
-          src="/logo.png" 
+          src="/LOGO.svg?v=2" 
           alt="CHEZ MACHA Logo" 
-          className="h-16 w-16 md:h-32 md:w-32 object-contain"
+          className="h-32 w-32 md:h-64 md:w-64 object-contain"
         />
       </div>
       
       {/* Desktop Navigation */}
-      <nav className="hidden lg:flex space-x-8 text-sm uppercase tracking-wider">
+      <nav className="hidden lg:flex space-x-8 text-sm uppercase tracking-wider items-center -mt-4">
         <a href="#upcoming-shows" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Shows</a>
         <a href="#evenements-passes" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Événements passés</a>
         <a href="#macha-de-ruyver" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>About</a>
       </nav>
       
       {/* Desktop Instagram Icon */}
-      <div className="hidden lg:flex space-x-4 text-white">
+      <div className="hidden lg:flex space-x-4 text-white items-center -mt-4">
         <a 
           href="https://www.instagram.com/chezmacha_standup/" 
           target="_blank" 
@@ -71,9 +71,9 @@ const Header = () => {
               {/* Mobile Menu Header */}
               <div className="flex justify-between items-center p-6 border-b border-zinc-700">
                 <img 
-                  src="/logo.png" 
+                  src="/LOGO.svg?v=2" 
                   alt="CHEZ MACHA Logo" 
-                  className="h-12 w-12 object-contain"
+                  className="h-24 w-24 object-contain"
                 />
                 <button
                   onClick={toggleMobileMenu}
@@ -143,12 +143,40 @@ const Header = () => {
 };
 
 const HeroSection = () => (
-  <div className="relative h-screen w-full">
-    <div 
-      className="absolute inset-0 bg-contain md:bg-cover bg-center bg-no-repeat" 
-      style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
-    ></div>
-    <div className="absolute inset-0 bg-black opacity-40"></div>
+  <div className="relative w-full">
+    {/* Mobile: YouTube Video with Hero Background */}
+    <div className="relative w-full h-screen md:hidden overflow-hidden">
+      {/* Hero image as background - always visible */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" 
+        style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
+      ></div>
+      
+      {/* YouTube Video - scaled to fill screen */}
+      <div className="absolute inset-0 z-10">
+        <iframe
+          src="https://www.youtube.com/embed/z3nilntF3h0?si=vyYkFJzq8Bqt7vXW&autoplay=1&mute=1&loop=1&playlist=z3nilntF3h0&controls=0&showinfo=0&rel=0&modestbranding=1"
+          title="Chez Macha - Stand Up Comedy"
+          className="w-full h-full scale-110"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{
+            transform: 'scale(1.1)',
+            transformOrigin: 'center center'
+          }}
+        ></iframe>
+      </div>
+    </div>
+    
+    {/* Desktop: Hero Picture */}
+    <div className="hidden md:block relative w-full h-screen">
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+        style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
+      ></div>
+      <div className="absolute inset-0 bg-black opacity-40"></div>
+    </div>
   </div>
 );
 
@@ -473,7 +501,7 @@ const AboutSection = () => {
             
             <button 
               onClick={() => setShowFullStory(!showFullStory)}
-              className="bg-transparent font-bold py-4 px-12 rounded-full border-2 uppercase tracking-wider transition-colors hover:bg-yellow-500 hover:text-black" 
+              className="bg-transparent font-bold py-2 md:py-4 px-6 md:px-12 rounded-full border-2 uppercase tracking-wider transition-colors hover:bg-yellow-500 hover:text-black text-sm md:text-base" 
               style={{ color: '#ffda65', borderColor: '#ffda65' }}
             >
               {showFullStory ? 'SHOW LESS' : 'FULL STORY'}
@@ -552,8 +580,9 @@ const Footer = () => {
             <button 
               type="submit"
               disabled={isSubmitting}
-              className="p-2 md:p-3 rounded-full transition-colors text-lg md:text-2xl flex-shrink-0" 
+              className="p-3 md:p-3 rounded-full transition-colors text-xl md:text-2xl flex-shrink-0 min-w-[48px] min-h-[48px] md:min-w-[56px] md:min-h-[56px]" 
               style={{ backgroundColor: '#ffda65', color: '#000' }}
+              title="Subscribe to newsletter"
             >
               {isSubmitting ? '⏳' : '😊'}
             </button>

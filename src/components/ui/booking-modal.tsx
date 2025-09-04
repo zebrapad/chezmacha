@@ -442,12 +442,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <p className="text-gray-300 text-lg mb-2">
               <strong>Réserve ta place au</strong>
             </p>
-            <Button
-              onClick={handleWhatsAppClick}
-              variant="yellow"
-              size="lg"
-              className="w-full text-lg font-bold flex items-center justify-center gap-3"
-            >
+            <div className="flex justify-center">
+              <Button
+                onClick={handleWhatsAppClick}
+                variant="yellow"
+                size="sm"
+                className="text-sm font-bold flex items-center justify-center gap-2"
+              >
               <div className="bg-transparent p-2 rounded-full">
                 <svg 
                   className="w-8 h-8" 
@@ -458,7 +459,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </svg>
               </div>
               0498616960
-            </Button>
+              </Button>
+            </div>
           </div>
           
           <p className="text-gray-400 text-sm">
