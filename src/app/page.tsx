@@ -3,36 +3,43 @@
 import React from 'react';
 
 import { BentoGrid, BentoCard } from '@/components/ui/bento-grid';
-import { getMockEvents, type Event } from '@/lib/google-sheets';
+import { Button } from '@/components/ui/button';
+import { BookingModal } from '@/components/ui/booking-modal';
+import { Carousel } from '@/components/ui/carousel';
+import { getEvents, getMockEvents, type Event, addNewsletterSubscriber } from '@/lib/google-sheets';
 
 const Header = () => (
-  <header className="fixed top-8 left-0 w-full flex justify-between items-center px-8 z-50">
-    <div className="flex items-center space-x-3">
+  <header className="fixed top-4 left-0 w-full flex justify-between items-center px-8 z-50">
+    <div className="flex items-center">
       <img 
-        src="/LOGO.svg?v=1" 
+        src="/logo.png" 
         alt="CHEZ MACHA Logo" 
-        className="h-10 w-10 rounded-full object-cover"
+        className="h-32 w-32 object-contain"
       />
-      <span className="text-2xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>CHEZ MACHA</span>
     </div>
+    
     <nav className="hidden lg:flex space-x-8 text-sm uppercase tracking-wider">
-      <a href="#" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Shows</a>
-      <a href="#" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Podcast</a>
-      <a href="#" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>About</a>
-      <a href="#" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Blog</a>
-      <a href="#" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Booking</a>
-      <a href="#" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Shop</a>
-      <a href="#" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Pages</a>
+      <a href="#upcoming-shows" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Shows</a>
+      <a href="#evenements-passes" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Événements passés</a>
+      <a href="#macha-de-ruyver" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>About</a>
     </nav>
+    
     <div className="flex space-x-4 text-white">
-      <a href="#" aria-label="Facebook" className="hover:text-gray-300 transition-colors">
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-      </a>
-      <a href="#" aria-label="Twitter" className="hover:text-gray-300 transition-colors">
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-      </a>
-      <a href="#" aria-label="YouTube" className="hover:text-gray-300 transition-colors">
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      <a 
+        href="https://www.instagram.com/chezmacha_standup/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        aria-label="Instagram" 
+        className="group relative hover:text-gray-300 transition-all duration-300 transform hover:scale-110 hover:rotate-3"
+      >
+        <svg 
+          className="w-6 h-6 transition-all duration-300 group-hover:drop-shadow-lg" 
+          fill="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+        <div className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
       </a>
     </div>
   </header>
@@ -52,21 +59,43 @@ const UpcomingShows = () => {
   const [upcomingShows, setUpcomingShows] = React.useState<Array<{
     day: string;
     monthYear: string;
-    city: string;
-    venue: string;
+    title: string;
+    subtitle: string;
+    place: string;
     status: string;
     link: string | undefined;
   }>>([]);
+  
+  const [selectedEvent, setSelectedEvent] = React.useState<{
+    title: string;
+    date: string;
+    place: string;
+  } | null>(null);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleBookingClick = (show: any) => {
+    setSelectedEvent({
+      title: show.title,
+      date: `${show.day} ${show.monthYear}`,
+      place: show.place,
+    });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedEvent(null);
+  };
 
   React.useEffect(() => {
-    const events = getMockEvents();
-    const today = new Date();
-    
-    // Filter upcoming events (from today onwards)
-    const upcomingEvents = events.filter(event => {
-      const eventDate = new Date(event.date);
-      return eventDate >= today && event.flag_active;
-    }).slice(0, 4); // Get first 4 upcoming events
+    const loadEvents = async () => {
+      const events = await getEvents();
+      const today = new Date();
+      
+      // Filter events with status "not yet" and get first 4
+      const upcomingEvents = events.filter((event: Event) => {
+        return event.flag_active && event.status === 'not yet';
+      }).slice(0, 4); // Get first 4 events with status "not yet"
 
     const formattedShows = upcomingEvents.map((event: Event) => {
       const eventDate = new Date(event.date);
@@ -74,21 +103,21 @@ const UpcomingShows = () => {
       const month = eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
       const year = eventDate.getFullYear();
       
-      // Extract city from place (assuming format: "Venue | City, Country")
-      const placeParts = event.place.split('|');
-      const city = placeParts.length > 1 ? placeParts[1].trim().split(',')[0].trim() : event.place;
-      
       return {
         day,
         monthYear: `${month} ${year}`,
-        city,
-        venue: event.place,
+        title: event.title,
+        subtitle: event.subtitle,
+        place: event.place,
         status: event.status === 'full' ? 'SOLD OUT' : 'BUY TICKETS',
         link: event.status === 'full' ? undefined : '#',
       };
     });
 
-    setUpcomingShows(formattedShows);
+      setUpcomingShows(formattedShows);
+    };
+    
+    loadEvents();
   }, []);
 
   return (
@@ -111,9 +140,13 @@ const UpcomingShows = () => {
                   <span className="text-5xl font-light" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>{show.day}</span>
                   <span className="text-sm text-gray-400 uppercase tracking-wider">{show.monthYear}</span>
                 </div>
-                <div>
-                  <h3 className="text-3xl font-bold text-white" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>{show.city}</h3>
-                  <p className="text-gray-400 text-sm mt-2">{show.venue}</p>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-4">
+                    <h3 className="text-3xl font-bold text-white" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>{show.title}</h3>
+                    <span className="text-gray-400 text-lg">•</span>
+                    <p className="text-gray-400 text-lg">{show.place}</p>
+                  </div>
+                  <p className="text-gray-300 text-lg mt-2">{show.subtitle}</p>
                 </div>
               </div>
               <div className="mt-6 md:mt-0">
@@ -122,9 +155,14 @@ const UpcomingShows = () => {
                     {show.status}
                   </span>
                 ) : (
-                  <a href={show.link} className="bg-transparent font-bold py-3 px-8 rounded-full text-sm uppercase tracking-wider border-2 transition-colors" style={{ color: '#ffda65', borderColor: '#ffda65' }}>
+                  <Button
+                    onClick={() => handleBookingClick(show)}
+                    variant="yellow"
+                    size="lg"
+                    className="font-bold uppercase tracking-wider"
+                  >
                     {show.status}
-                  </a>
+                  </Button>
                 )}
               </div>
             </div>
@@ -137,179 +175,211 @@ const UpcomingShows = () => {
           </button>
         </div>
       </div>
+      
+      {selectedEvent && (
+        <BookingModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          eventTitle={selectedEvent.title}
+          eventDate={selectedEvent.date}
+          eventPlace={selectedEvent.place}
+        />
+      )}
     </div>
   );
 };
 
 const PodcastSection = () => {
-  // Create event data for the bento grid
-  const events = [
+  // Create slides for the carousel - all 11 images
+  const slides = [
     {
-      name: 'TENNIS CHURCHILL',
-      description: 'Festival rire & bbq',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-251.jpg" alt="Tennis Churchill" className="h-full w-full object-cover" />,
-      className: 'col-span-3',
-      href: '#',
-      cta: 'View Event'
+      title: 'Tennis Churchill',
+      button: 'Festival Rire & BBQ',
+      src: '/asset/event/optimized_vizorek.jpg'
     },
     {
-      name: 'CÔTÉ MEUSE',
-      description: 'Stand up & spaguettis',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-146.jpg" alt="Côte Meuse" className="h-full w-full object-cover" />,
-      className: 'col-span-1',
-      href: '#',
-      cta: 'View Event'
+      title: 'Stand Up Comedy',
+      button: 'Event Image',
+      src: '/asset/event/optimized_Stand Up Comedy Show-43.jpg'
     },
     {
-      name: 'WINE CLUB',
-      description: 'Stand up & cheese & wine',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-78.jpg" alt="Wine Club" className="h-full w-full object-cover" />,
-      className: 'col-span-1',
-      href: '#',
-      cta: 'View Event'
+      title: 'Alice Bar',
+      button: 'Stand Up & Cocktail',
+      src: '/asset/event/optimized_Stand Up Comedy Show-78.jpg'
     },
     {
-      name: 'ALICE BAR',
-      description: 'Stand-up & Planchas & Cocktails',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-43.jpg" alt="Alice Bar" className="h-full w-full object-cover" />,
-      className: 'col-span-1',
-      href: '#',
-      cta: 'View Event'
+      title: 'Stand Up Comedy',
+      button: 'Event Image',
+      src: '/asset/event/optimized_Stand Up Comedy Show-146.jpg'
     },
     {
-      name: 'COMEDY NIGHT',
-      description: 'Stand up & cocktails',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-251.jpg" alt="Comedy Night" className="h-full w-full object-cover" />,
-      className: 'col-span-2',
-      href: '#',
-      cta: 'View Event'
+      title: 'Stand Up Comedy',
+      button: 'Event Image',
+      src: '/asset/event/optimized_Stand Up Comedy Show-169.jpg'
     },
     {
-      name: 'LAUGHTER CLUB',
-      description: 'Comedy & wine tasting',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-146.jpg" alt="Laughter Club" className="h-full w-full object-cover" />,
-      className: 'col-span-1',
-      href: '#',
-      cta: 'View Event'
+      title: 'Stand Up Comedy',
+      button: 'Event Image',
+      src: '/asset/event/optimized_Stand Up Comedy Show-209.jpg'
     },
     {
-      name: 'FUNNY FRIDAY',
-      description: 'Stand up & tapas',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-78.jpg" alt="Funny Friday" className="h-full w-full object-cover" />,
-      className: 'col-span-2',
-      href: '#',
-      cta: 'View Event'
+      title: 'Wine Club',
+      button: 'Stand Up & Cheese & Wine',
+      src: '/asset/event/optimized_Stand Up Comedy Show-232.jpg'
     },
     {
-      name: 'COMEDY CAFE',
-      description: 'Stand up & coffee',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-43.jpg" alt="Comedy Cafe" className="h-full w-full object-cover" />,
-      className: 'col-span-1',
-      href: '#',
-      cta: 'View Event'
+      title: 'Stand Up Comedy',
+      button: 'Event Image',
+      src: '/asset/event/optimized_Stand Up Comedy Show-251.jpg'
     },
     {
-      name: 'LAUGH LOUNGE',
-      description: 'Comedy & cocktails',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-251.jpg" alt="Laugh Lounge" className="h-full w-full object-cover" />,
-      className: 'col-span-1',
-      href: '#',
-      cta: 'View Event'
+      title: 'Côte Meuse',
+      button: 'Stand Up & Spaghetti',
+      src: '/asset/event/optimized_Stand Up Comedy Show-52.jpg'
     },
     {
-      name: 'HUMOR HAVEN',
-      description: 'Stand up & desserts',
-      background: <img src="/asset/event/optimized_Stand Up Comedy Show-146.jpg" alt="Humor Haven" className="h-full w-full object-cover" />,
-      className: 'col-span-3',
-      href: '#',
-      cta: 'View Event'
+      title: 'Stand Up Comedy',
+      button: 'Event Image',
+      src: '/asset/event/optimized_Stand Up Comedy Show-130.jpg'
     },
+    {
+      title: 'Stand Up Comedy',
+      button: 'Event Image',
+      src: '/asset/event/optimized_people.jpg'
+    }
   ];
-
-  // Simple icon component for the bento cards
-  const EventIcon = ({ className }: { className?: string }) => (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-    </svg>
-  );
 
   return (
     <div className="bg-zinc-900 py-16 px-8">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-12" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
-          ÉVÉNEMENTS PASSÉS
-        </h2>
-        <BentoGrid className="grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
-          {events.map((event, index) => (
-            <BentoCard
-              key={index}
-              name={event.name}
-              description={event.description}
-              background={event.background}
-              Icon={EventIcon}
-              className={event.className}
-              href={event.href}
-              cta={event.cta}
-            />
-          ))}
-        </BentoGrid>
+        <div className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
+            ÉVÉNEMENTS PASSÉS
+          </h2>
+        </div>
+        <Carousel slides={slides} />
       </div>
     </div>
   );
 };
 
-const AboutSection = () => (
-  <div className="bg-zinc-900 py-16 px-8">
-    <div className="max-w-6xl mx-auto">
-      <h2 className="text-sm uppercase mb-8 tracking-wider">
-        <span className="text-gray-300">BEHIND THE </span>
-        <span style={{ color: '#ffda65' }}>MIC</span>
-      </h2>
-      <div className="relative">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <img src="/asset/optimized_macha1.jpg" alt="MACHA DE RUYVER" className="w-full h-auto rounded-lg object-cover" />
-          <img src="/asset/optimized_macha2.jpg" alt="MACHA DE RUYVER" className="w-full h-auto rounded-lg object-cover" />
-          <img src="/asset/optimized_macha3.jpg" alt="MACHA DE RUYVER" className="w-full h-auto rounded-lg object-cover" />
+const AboutSection = () => {
+  const [showFullStory, setShowFullStory] = React.useState(false);
+
+  const shortText = (
+    <>
+      Une nana qui a compris une chose : si la vie te donne des galères, transforme-les en vannes.
+      <br /><br />
+      Humoriste, animatrice radio et maman solo, Macha a choisi de faire de son micro une arme massive de bonne humeur.
+      <br /><br />
+      Le matin, elle réveille Bruxelles sur BXFM avec son énergie, ses blagues (et son café XXL, sans lequel rien ne serait possible).
+    </>
+  );
+
+  const fullText = (
+    <>
+      Une nana qui a compris une chose : si la vie te donne des galères, transforme-les en vannes.
+      <br /><br />
+      Humoriste, animatrice radio et maman solo, Macha a choisi de faire de son micro une arme massive de bonne humeur.
+      <br /><br />
+      Le matin, elle réveille Bruxelles sur BXFM avec son énergie, ses blagues (et son café XXL, sans lequel rien ne serait possible). Une fois par semaine, elle ouvre son micro à La Bande à Macha : cinq humoristes qu'elle met en avant, parce qu'elle croit dur comme fer qu'on rit plus fort ensemble que tout seul.
+      <br /><br />
+      Le soir, elle invente des scènes là où personne ne les attend : un club de paddle, une péniche, un bar new-yorkais… Ses soirées stand-up nomades sont devenues des rendez-vous où l'on vient autant pour rigoler que pour partager un vrai moment humain.
+      <br /><br />
+      Macha, c'est ce mélange unique : sensible mais piquante, drôle mais authentique, légère mais profonde. Bref, elle commence vos journées en sourire et les termine en éclat de rire.
+    </>
+  );
+
+  const quote = "Chez moi, on rit fort, on vit vrai et on repart plus léger.";
+
+  return (
+    <div className="bg-zinc-900 py-16 px-8">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-sm uppercase mb-8 tracking-wider">
+          <span className="text-gray-300">BEHIND THE </span>
+          <span style={{ color: '#ffda65' }}>MIC</span>
+        </h2>
+        <div className="relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <img src="/asset/optimized_macha1.jpg" alt="MACHA DE RUYVER" className="w-full h-auto rounded-lg object-cover" />
+            <img src="/asset/optimized_macha2.jpg" alt="MACHA DE RUYVER" className="w-full h-auto rounded-lg object-cover" />
+            <img src="/asset/optimized_macha3.jpg" alt="MACHA DE RUYVER" className="w-full h-auto rounded-lg object-cover" />
+          </div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
+            <h3 className="text-5xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>MACHA</h3>
+          </div>
         </div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-center">
-          <h3 className="text-5xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>MACHA</h3>
-        </div>
-      </div>
-      <div className="mt-8 max-w-2xl mx-auto">
-        <div className="text-left">
-          <div className="relative mb-6">
-            <h3 className="text-4xl font-bold" style={{ 
+        <div className="mt-8 max-w-2xl mx-auto">
+          <div className="text-left">
+            <div className="relative mb-6">
+                          <h3 className="text-4xl font-bold" style={{ 
               fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
               color: '#ffda65',
-              opacity: 0.8
+              opacity: 0.4
             }}>
-              MACHA DE RUYVER
-            </h3>
-            <img 
-              src="/asset/signature/Macha.png" 
-              alt="MACHA DE RUYVER Signature" 
-              className="absolute -top-8 left-0 h-16 object-contain"
-            />
+                MACHA DE RUYVER
+              </h3>
+              <img 
+                src="/asset/signature/Macha.png" 
+                alt="MACHA DE RUYVER Signature" 
+                className="absolute -top-8 left-0 h-16 object-contain"
+              />
+            </div>
+            
+            <p className="text-lg leading-relaxed text-gray-300 mb-6">
+              {showFullStory ? fullText : shortText}
+            </p>
+
+            {showFullStory && (
+              <div className="mb-6 p-6 bg-zinc-800 rounded-lg border-l-4" style={{ borderLeftColor: '#ffda65' }}>
+                <p className="text-lg italic text-gray-200 text-center" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>
+                  "{quote}"
+                </p>
+              </div>
+            )}
+            
+            <button 
+              onClick={() => setShowFullStory(!showFullStory)}
+              className="bg-transparent font-bold py-4 px-12 rounded-full border-2 uppercase tracking-wider transition-colors hover:bg-yellow-500 hover:text-black" 
+              style={{ color: '#ffda65', borderColor: '#ffda65' }}
+            >
+              {showFullStory ? 'SHOW LESS' : 'FULL STORY'}
+            </button>
           </div>
-          
-          <p className="text-lg leading-relaxed text-gray-300 mb-6">
-            MACHA DE RUYVER&apos;s life has been a tale of excess and indulgence.
-          </p>
-          <p className="text-lg leading-relaxed text-gray-300 mb-8">
-            Despite her hardships, Ms. DE RUYVER has one of the most fulfilling careers of any standup comedian, and she is always in the conversation with all the great times.
-          </p>
-          
-          <button className="bg-transparent font-bold py-4 px-12 rounded-full border-2 uppercase tracking-wider transition-colors" style={{ color: '#ffda65', borderColor: '#ffda65' }}>
-            FULL STORY
-          </button>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
 
 const Footer = () => {
   const chezMachaLogo = '/LOGO.svg?v=1';
+  const [email, setEmail] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setMessage('');
+
+    try {
+      const success = await addNewsletterSubscriber(email, name);
+      if (success) {
+        setMessage('Merci ! Vous êtes maintenant inscrit à la newsletter.');
+        setEmail('');
+        setName('');
+      } else {
+        setMessage('Erreur lors de l\'inscription. Veuillez réessayer.');
+      }
+    } catch (error) {
+      setMessage('Erreur lors de l\'inscription. Veuillez réessayer.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <footer className="bg-zinc-800 py-16 px-8">
@@ -319,16 +389,42 @@ const Footer = () => {
             <h3 className="text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>SUBSCRIBE</h3>
             <p className="text-sm uppercase text-gray-400 mt-2 tracking-wider">TO OUR NEWSLETTER</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
-            <input type="email" placeholder="YOUR EMAIL" className="bg-zinc-700 text-white p-3 rounded-full w-full md:w-auto" />
-            <input type="text" placeholder="YOUR NAME" className="bg-zinc-700 text-white p-3 rounded-full w-full md:w-auto" />
-            <button className="p-3 rounded-full transition-colors" style={{ backgroundColor: '#ffda65', color: '#000' }}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5M15 6.75v10.5M3.75 6.75h1.5m10.5 0h1.5m1.5 6.75h1.5m-1.5 0h-9.75m1.5-6.75h9.75M18.75 6.75v-1.5m0 12v-1.5" />
-              </svg>
+          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
+            <input 
+              type="email" 
+              placeholder="YOUR EMAIL" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="bg-zinc-700 text-white p-3 rounded-full w-full md:w-auto" 
+            />
+            <input 
+              type="text" 
+              placeholder="YOUR NAME" 
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="bg-zinc-700 text-white p-3 rounded-full w-full md:w-auto" 
+            />
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className="p-3 rounded-full transition-colors text-2xl" 
+              style={{ backgroundColor: '#ffda65', color: '#000' }}
+            >
+              {isSubmitting ? '⏳' : '😊'}
             </button>
-          </div>
+          </form>
         </div>
+        
+        {message && (
+          <div className="mt-4 text-center">
+            <p className={`text-sm ${message.includes('Merci') ? 'text-green-400' : 'text-red-400'}`}>
+              {message}
+            </p>
+          </div>
+        )}
+        
         <div className="mt-16 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
           <div className="flex flex-col items-center md:items-start space-y-2">
             <div className="flex items-center space-x-2">

@@ -94,7 +94,7 @@ const MediaItem = ({ item, className, onClick }: { item: MediaItemType, classNam
             <div className={`${className} relative overflow-hidden`}>
                 <video
                     ref={videoRef}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     onClick={onClick}
                     playsInline
                     muted
@@ -304,7 +304,7 @@ const InteractiveBentoGallery: React.FC<InteractiveBentoGalleryProps> = ({ media
     const [isDragging, setIsDragging] = useState(false);
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
             {title && description && (
                 <div className="mb-8 text-center">
                     <motion.h1
@@ -338,7 +338,7 @@ const InteractiveBentoGallery: React.FC<InteractiveBentoGalleryProps> = ({ media
                     />
                 ) : (
                     <motion.div
-                        className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 auto-rows-[200px]"
+                        className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-3 auto-rows-[120px]"
                         initial="hidden"
                         animate="visible"
                         exit="hidden"
@@ -392,25 +392,9 @@ const InteractiveBentoGallery: React.FC<InteractiveBentoGalleryProps> = ({ media
                             >
                                 <MediaItem
                                     item={item}
-                                    className="absolute inset-0 w-full h-full object-contain"
+                                    className="absolute inset-0 w-full h-full"
                                     onClick={() => !isDragging && setSelectedItem(item)}
                                 />
-                                <motion.div
-                                    className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4"
-                                    initial={{ opacity: 0 }}
-                                    whileHover={{ opacity: 1 }}
-                                    transition={{ duration: 0.2 }}
-                                >
-                                    <div className="absolute inset-0 flex flex-col justify-end p-2 sm:p-3 md:p-4">
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                                        <h3 className="relative text-white text-xs sm:text-sm md:text-base font-medium line-clamp-1">
-                                            {item.title}
-                                        </h3>
-                                        <p className="relative text-white/70 text-[10px] sm:text-xs md:text-sm mt-0.5 line-clamp-2">
-                                            {item.desc}
-                                        </p>
-                                    </div>
-                                </motion.div>
                             </motion.div>
                         ))}
                     </motion.div>
