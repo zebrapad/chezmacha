@@ -203,17 +203,19 @@ export async function addNewsletterSubscriber(email: string, name: string): Prom
     // Also try to submit to Google Form (as backup)
     try {
       const formData = new FormData();
-      // Email field (first field in your form)n      formData.append('entry.2005620554', email);
-      // Prénom field (second field in your form)n      formData.append('entry.1065046570', name);
+      // Email field (first field in your form)
+      formData.append('entry.2005620554', email);
+      // Prénom field (second field in your form)
+      formData.append('entry.1065046570', name);
       
-      await fetch(NEWSLETTER_FORM_ACTION_URL, {
+      const response = await fetch(NEWSLETTER_FORM_ACTION_URL, {
         method: 'POST',
         body: formData,
         mode: 'no-cors'
       });
       console.log('Also submitted to Google Form');
-    } catch {
-      console.log('Google Form submission failed, but data saved locally');
+    } catch (error) {
+      console.log('Google Form submission failed, but data saved locally:', error);
     }
     
     return true;
@@ -266,6 +268,45 @@ export function exportNewsletterSubscribers() {
     console.log('Newsletter subscribers exported as CSV');
   } catch (error) {
     console.error('Error exporting newsletter subscribers:', error);
+  }
+}
+
+// Function to manually submit all local subscribers to Google Form
+export async function syncSubscribersToGoogleForm() {
+  try {
+    const subscribers = getNewsletterSubscribers();
+    
+    if (subscribers.length === 0) {
+      console.log('No subscribers to sync');
+      return;
+    }
+    
+    console.log(`Syncing ${subscribers.length} subscribers to Google Form...`);
+    
+    for (const subscriber of subscribers) {
+      try {
+        const formData = new FormData();
+        formData.append('entry.2005620554', subscriber.email);
+        formData.append('entry.1065046570', subscriber.name);
+        
+        await fetch(NEWSLETTER_FORM_ACTION_URL, {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        });
+        
+        console.log(`Synced subscriber: ${subscriber.email}`);
+        
+        // Small delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.error(`Failed to sync subscriber ${subscriber.email}:`, error);
+      }
+    }
+    
+    console.log('Sync completed');
+  } catch (error) {
+    console.error('Error syncing subscribers to Google Form:', error);
   }
 }
 
