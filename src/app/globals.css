@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Ensure logo has transparent background */
+img[src*="LOGO.svg"] {
+  background-color: transparent !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
