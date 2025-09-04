@@ -560,14 +560,14 @@ const Footer = () => {
             <h3 className="text-2xl md:text-3xl font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' }}>SUBSCRIBE</h3>
             <p className="text-xs md:text-sm uppercase text-gray-400 mt-1 md:mt-2 tracking-wider">TO OUR NEWSLETTER</p>
           </div>
-          <form onSubmit={handleSubmit} className="flex flex-row items-center space-x-2 md:space-x-4 w-full md:w-auto">
+          <form onSubmit={handleSubmit} className="flex flex-row items-center space-x-2 md:space-x-4 w-full md:w-auto overflow-x-auto">
             <input 
               type="email" 
               placeholder="EMAIL" 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="bg-zinc-700 text-white p-2 md:p-3 rounded-full flex-1 md:flex-none md:w-auto text-sm md:text-base" 
+              className="bg-zinc-700 text-white p-2 md:p-3 rounded-full flex-1 md:flex-none md:w-auto text-sm md:text-base min-w-0" 
             />
             <input 
               type="text" 
@@ -575,12 +575,12 @@ const Footer = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="bg-zinc-700 text-white p-2 md:p-3 rounded-full flex-1 md:flex-none md:w-auto text-sm md:text-base" 
+              className="bg-zinc-700 text-white p-2 md:p-3 rounded-full flex-1 md:flex-none md:w-auto text-sm md:text-base min-w-0" 
             />
             <button 
               type="submit"
               disabled={isSubmitting}
-              className="p-4 md:p-3 rounded-full transition-colors text-2xl md:text-2xl flex-shrink-0 min-w-[56px] min-h-[56px] md:min-w-[56px] md:min-h-[56px] border-2 border-yellow-400" 
+              className="p-3 md:p-3 rounded-full transition-colors text-xl md:text-2xl flex-shrink-0 min-w-[48px] min-h-[48px] md:min-w-[56px] md:min-h-[56px] border-2 border-yellow-400 bg-yellow-400" 
               style={{ backgroundColor: '#ffda65', color: '#000' }}
               title="Subscribe to newsletter"
             >
