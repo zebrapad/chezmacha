@@ -175,7 +175,7 @@ const CoinTipButton: React.FC<CoinTipButtonProps> = ({ className }) => {
           coin,
           {
             onUpdate: function () {
-              const y = gsap.getProperty(coin, 'y');
+              const y = Number(gsap.getProperty(coin, 'y')) || 0;
               if (y >= coin.offsetHeight) {
                 this.progress(1);
                 tl.progress(1);
