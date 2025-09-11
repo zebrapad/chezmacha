@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from './button';
 import { useState } from 'react';
 import { motion, AnimatePresence, useSpring, useTransform } from 'framer-motion';
+import { getEventImageUrl, hasImageForEventDate } from '@/lib/image-utils';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -308,13 +309,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   eventPlace,
   eventStatus,
 }) => {
-  const [showPersonCount, setShowPersonCount] = React.useState(false);
-  const [personCount, setPersonCount] = React.useState(1);
 
   if (!isOpen) return null;
 
   // Extract date from eventDate (format: "04 SEP 2025")
   const getEventMedia = () => {
+    // Parse the event date to extract YYYY-MM-DD format
     const dateParts = eventDate.split(' ');
     if (dateParts.length >= 3) {
       const day = dateParts[0].padStart(2, '0');
@@ -329,14 +329,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       };
       
       const monthNum = monthMap[month] || '09';
-      const mediaDate = `${year}-${monthNum}-${day}`;
+      const dateString = `${year}-${monthNum}-${day}`;
       
-      // Check if we have a specific media file for this date
-      const availableMedia = ['2025-09-04', '2025-09-18', '2025-09-19', '2025-09-28'];
-      if (availableMedia.includes(mediaDate)) {
-        // Use image for all events (no more video)
+      // Use the robust image detection system
+      if (hasImageForEventDate(dateString)) {
         return {
-          src: `/asset/guest/${mediaDate}.jpeg`,
+          src: getEventImageUrl(dateString),
           type: 'image'
         };
       }
@@ -344,7 +342,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     
     // Fallback to vizorek image if no specific date media found
     return {
-      src: '/asset/event/optimized_vizorek.jpg',
+      src: `/asset/event/optimized_vizorek.jpg?v=${Date.now()}`,
       type: 'image'
     };
   };
@@ -362,37 +360,20 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     return `/asset/guest/${baseDate}.jpeg`;
   };
 
-  const handleWhatsAppClick = () => {
-    setShowPersonCount(true);
-  };
-
-  const handlePersonCountConfirm = (count: number) => {
-    setPersonCount(count);
-    setShowPersonCount(false);
-    
-    // Create message with person count
-    const personText = count === 1 ? '1 personne' : `${count} personnes`;
-    const message = `Bonjour! Je souhaite réserver ${personText} pour l'événement "${eventTitle}" le ${eventDate} à ${eventPlace}.`;
-    
-    // Detect if user is on mobile or desktop
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    let whatsappUrl;
-    
-    if (isMobile) {
-      // Mobile: Open WhatsApp app
-      whatsappUrl = `https://wa.me/32498616960?text=${encodeURIComponent(message)}`;
-    } else {
-      // Desktop: Open WhatsApp Web
-      whatsappUrl = `https://web.whatsapp.com/send?phone=32498616960&text=${encodeURIComponent(message)}`;
+  const handleTicketTypeSelect = (ticketType: 'normal' | 'solidarity') => {
+    // Redirect directly to Stripe based on ticket type
+    if (ticketType === 'normal') {
+      // Entrée normale - Standard price
+      const stripeUrl = 'https://buy.stripe.com/7sY3cvaNh8695Ml1b8bfO02';
+      window.open(stripeUrl, '_blank');
+    } else if (ticketType === 'solidarity') {
+      // Entrée solidaire - Reduced price
+      const stripeUrl = 'https://buy.stripe.com/4gM28r5sXeux6Qp6vsbfO01';
+      window.open(stripeUrl, '_blank');
     }
-    
-    window.open(whatsappUrl, '_blank');
   };
 
-  const handlePersonCountClose = () => {
-    setShowPersonCount(false);
-  };
+
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -412,7 +393,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           <div className="mb-6">
             {(() => {
               const media = getEventMedia();
-              const isVideoFile = media.type === 'video' || isVideo(media.src);
+              // Only show video if explicitly set as video type
+              const isVideoFile = media.type === 'video';
               
               if (isVideoFile) {
                 return (
@@ -442,32 +424,45 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           
           {eventStatus !== 'CLOSED' && (
             <div className="mb-6">
-              <p className="text-gray-300 text-lg mb-2">
-                <strong>Réserve ta place au</strong>
+              <p className="text-gray-300 text-lg mb-4 text-center">
+                <strong>Choisis ton type de billet</strong>
               </p>
-              <div className="flex justify-center">
-                <Button
-                  onClick={handleWhatsAppClick}
-                  variant="yellow"
-                  size="sm"
-                  className="text-sm font-bold flex items-center justify-center gap-2"
+              
+              <div className="space-y-3 max-w-md mx-auto">
+                {/* Normal Ticket Option */}
+                <button
+                  onClick={() => handleTicketTypeSelect('normal')}
+                  className="w-full p-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl border-2 border-zinc-600 hover:border-yellow-500 transition-all duration-200 text-left"
                 >
-                <div className="bg-transparent p-2 rounded-full">
-                  <svg 
-                    className="w-8 h-8" 
-                    fill="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-                  </svg>
-                </div>
-                0498616960
-                </Button>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h4 className="font-bold text-lg">Entrée normale</h4>
+                      <p className="text-sm text-gray-400">Prix standard</p>
+                    </div>
+                    <div className="text-yellow-500 text-2xl ml-4">🎫</div>
+                  </div>
+                </button>
+
+                {/* Solidarity Ticket Option */}
+                <button
+                  onClick={() => handleTicketTypeSelect('solidarity')}
+                  className="w-full p-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl border-2 border-zinc-600 hover:border-green-500 transition-all duration-200 text-left"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h4 className="font-bold text-lg">Entrée solidaire</h4>
+                      <p className="text-sm text-gray-400 leading-relaxed">
+                        Ta place + 1 place offerte à un senior pour une soirée stand-up en maison de repos
+                      </p>
+                    </div>
+                    <div className="text-green-500 text-2xl ml-4">🤝</div>
+                  </div>
+                </button>
               </div>
             </div>
           )}
           
-          {eventStatus === 'CLOSED' ? (
+          {eventStatus === 'CLOSED' && (
             <div className="mb-6">
               <p className="text-gray-400 text-lg mb-2 text-center">
                 <strong>Cet événement est terminé</strong>
@@ -476,22 +471,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 Qui étaient nos humoristes du jour?
               </p>
             </div>
-          ) : (
-            <p className="text-gray-400 text-sm">
-              Cliquez sur le bouton pour nous contacter sur WhatsApp
-            </p>
           )}
         </div>
       </div>
       
-      {showPersonCount && (
-        <AnimatedCounter
-          initialCount={personCount}
-          onConfirm={handlePersonCountConfirm}
-          onClose={handlePersonCountClose}
-          eventTitle={eventTitle}
-        />
-      )}
     </div>
   );
 };

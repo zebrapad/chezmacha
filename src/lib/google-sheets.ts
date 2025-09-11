@@ -10,7 +10,7 @@ export interface Event {
   date: string;
   place: string;
   guests: number;
-  status: 'full' | 'not yet';
+  status: 'full' | 'not yet' | 'closed';
   flag_active: boolean;
 }
 
@@ -45,7 +45,7 @@ export async function fetchEventsFromGoogleSheets(): Promise<Event[]> {
       date: row[2] || '',
       place: row[3] || '',
       guests: parseInt(row[4]) || 0,
-      status: (row[5] || 'not yet') as 'full' | 'not yet',
+      status: (row[5] || 'not yet') as 'full' | 'not yet' | 'closed',
       flag_active: true, // Default to true for all events
     }));
 
@@ -123,7 +123,7 @@ export function getMockEvents(): Event[] {
       date: '2024-09-04',
       place: 'Tennis Churchill, France',
       guests: 100,
-      status: 'full',
+      status: 'closed',
       flag_active: true,
     },
     {
@@ -133,7 +133,7 @@ export function getMockEvents(): Event[] {
       date: '2024-09-18',
       place: 'Côte Meuse, France',
       guests: 80,
-      status: 'full',
+      status: 'closed',
       flag_active: true,
     },
     {
@@ -143,7 +143,7 @@ export function getMockEvents(): Event[] {
       date: '2024-09-19',
       place: 'Wine Club, France',
       guests: 60,
-      status: 'full',
+      status: 'closed',
       flag_active: true,
     },
     {
@@ -153,7 +153,7 @@ export function getMockEvents(): Event[] {
       date: '2024-09-25',
       place: 'Alice Bar, France',
       guests: 90,
-      status: 'full',
+      status: 'closed',
       flag_active: true,
     },
   ];

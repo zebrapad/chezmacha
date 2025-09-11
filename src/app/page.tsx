@@ -6,10 +6,26 @@ import { Button } from '@/components/ui/button';
 import { BookingModal } from '@/components/ui/booking-modal';
 import { Carousel } from '@/components/ui/carousel';
 import { getEvents, type Event, addNewsletterSubscriber } from '@/lib/google-sheets';
+import AttractButton from '@/components/ui/attract-button';
+import NewsletterModal from '@/components/ui/newsletter-modal';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [isNewsletterModalOpen, setIsNewsletterModalOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      // Mobile when height > width (portrait orientation)
+      setIsMobile(window.innerHeight > window.innerWidth);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -19,7 +35,7 @@ const Header = () => {
     <header className="fixed -top-8 left-0 w-full flex justify-between items-center pl-0 pr-4 md:pl-1 md:pr-8 z-50">
       <div className="flex items-center">
         <img 
-          src={`/LOGO.svg?v=${Date.now()}`} 
+          src="/LOGO.svg" 
           alt="CHEZ MACHA Logo" 
           className="h-32 w-32 md:h-64 md:w-64 object-contain"
           style={{ 
@@ -31,15 +47,37 @@ const Header = () => {
         />
       </div>
       
-      {/* Desktop Navigation */}
-      <nav className="hidden lg:flex space-x-8 text-sm uppercase tracking-wider items-center -mt-4">
-        <a href="#upcoming-shows" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Shows</a>
-        <a href="#evenements-passes" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>Événements passés</a>
-        <a href="#macha-de-ruyver" className="hover:text-gray-300 transition-colors font-semibold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>About</a>
+      {/* Navigation - centered between logo and Instagram */}
+      <nav className="flex space-x-8 items-center -mt-4">
+        {!isMobile && (
+          <>
+            <a href="#upcoming-shows" className="text-sm font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
+              shows
+            </a>
+            <a href="#evenements-passes" className="text-sm font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
+              événements passés
+            </a>
+            <a href="#macha-de-ruyver" className="text-sm font-bold" style={{ fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', color: '#ffda65' }}>
+              about
+            </a>
+          </>
+        )}
+        <AttractButton 
+          text="newsletter"
+          hoverText="let's go"
+          particleColor="#000000"
+          onClick={() => setIsNewsletterModalOpen(true)}
+          className="text-sm font-bold bg-yellow-500 hover:bg-yellow-600 border-2 border-yellow-500"
+          style={{ 
+            fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
+            color: '#000000'
+          }}
+        />
       </nav>
       
       {/* Desktop Instagram Icon */}
-      <div className="hidden lg:flex space-x-4 text-white items-center -mt-4">
+      {!isMobile && (
+        <div className="flex space-x-4 text-white items-center -mt-4">
         <a 
           href="https://www.instagram.com/chezmacha_standup/" 
           target="_blank" 
@@ -56,28 +94,31 @@ const Header = () => {
           </svg>
           <div className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
         </a>
-      </div>
+        </div>
+      )}
 
       {/* Mobile Hamburger Menu Button */}
-      <button
-        className="lg:hidden flex flex-col justify-center items-center w-8 h-8 space-y-1.5 text-white hover:text-gray-300 transition-colors"
-        onClick={toggleMobileMenu}
-        aria-label="Toggle mobile menu"
-      >
-        <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-        <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
-        <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-      </button>
+      {isMobile && (
+        <button
+          className="flex flex-col justify-center items-center w-8 h-8 space-y-1.5 text-white hover:text-gray-300 transition-colors"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle mobile menu"
+        >
+          <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+          <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+          <span className={`block w-6 h-0.5 bg-current transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+        </button>
+      )}
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-40 lg:hidden" onClick={toggleMobileMenu}>
+      {isMobile && isMobileMenuOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-40" onClick={toggleMobileMenu}>
           <div className="fixed top-0 right-0 h-full w-80 bg-zinc-900 shadow-xl transform transition-transform duration-300 ease-in-out" onClick={(e) => e.stopPropagation()}>
             <div className="flex flex-col h-full">
               {/* Mobile Menu Header */}
               <div className="flex justify-between items-center p-6 border-b border-zinc-700">
                 <img 
-                  src={`/LOGO.svg?v=${Date.now()}`} 
+                  src="/LOGO.svg" 
                   alt="CHEZ MACHA Logo" 
                   className="h-24 w-24 object-contain"
                   style={{ 
@@ -150,47 +191,75 @@ const Header = () => {
           </div>
         </div>
       )}
+
+      {/* Newsletter Modal */}
+      <NewsletterModal 
+        isOpen={isNewsletterModalOpen} 
+        onClose={() => setIsNewsletterModalOpen(false)} 
+      />
     </header>
   );
 };
 
-const HeroSection = () => (
-  <div className="relative w-full">
-    {/* Mobile: YouTube Video with Hero Background */}
-    <div className="relative w-full h-screen md:hidden overflow-hidden">
-      {/* Hero image as background - always visible */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" 
-        style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
-      ></div>
-      
-      {/* YouTube Video - scaled to fill screen */}
-      <div className="absolute inset-0 z-10">
-        <iframe
-          src="https://www.youtube.com/embed/z3nilntF3h0?si=vyYkFJzq8Bqt7vXW&autoplay=1&mute=1&loop=1&playlist=z3nilntF3h0&controls=0&showinfo=0&rel=0&modestbranding=1"
-          title="Chez Macha - Stand Up Comedy"
-          className="w-full h-full scale-110"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          style={{
-            transform: 'scale(1.1)',
-            transformOrigin: 'center center'
-          }}
-        ></iframe>
-      </div>
-    </div>
+const HeroSection = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      // Mobile when height > width (portrait orientation)
+      setIsMobile(window.innerHeight > window.innerWidth);
+    };
     
-    {/* Desktop: Hero Picture */}
-    <div className="hidden md:block relative w-full h-screen">
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-        style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
-      ></div>
-      <div className="absolute inset-0 bg-black opacity-40"></div>
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return (
+    <div className="relative w-full">
+      {/* Mobile: YouTube Video with Hero Background */}
+      {isMobile && (
+        <div className="relative w-full h-screen overflow-hidden">
+          {/* Hero image as background - always visible */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0" 
+            style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
+          ></div>
+          
+          {/* YouTube Video - scaled to fill screen */}
+          <div className="absolute inset-0 z-10">
+            <iframe
+              src="https://www.youtube.com/embed/z3nilntF3h0?si=vyYkFJzq8Bqt7vXW&autoplay=1&mute=1&loop=1&playlist=z3nilntF3h0&controls=0&showinfo=0&rel=0&modestbranding=1"
+              title="Chez Macha - Stand Up Comedy"
+              className="w-full h-full scale-110"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{
+                transform: 'scale(1.1)',
+                transformOrigin: 'center center'
+              }}
+            ></iframe>
+          </div>
+
+        </div>
+      )}
+      
+      {/* Desktop: Hero Picture ONLY - NO VIDEO */}
+      {!isMobile && (
+        <div className="relative w-full h-screen">
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
+            style={{ backgroundImage: "url('/asset/optimized_hero.jpg')" }}
+          ></div>
+          <div className="absolute inset-0 bg-black opacity-40"></div>
+          
+        </div>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 const UpcomingShows = () => {
   const [upcomingShows, setUpcomingShows] = React.useState<Array<{
@@ -274,9 +343,9 @@ const UpcomingShows = () => {
         eventDate.setHours(0, 0, 0, 0); // Reset event date time to start of day
         const isPastEvent = eventDate < today;
         
-        // Determine status based on event state
+        // Determine status based on event state and Google Sheets status
         let status: string;
-        if (isPastEvent) {
+        if (isPastEvent || event.status === 'closed') {
           status = 'CLOSED';
         } else if (event.status === 'full') {
           status = 'SOLD OUT';
@@ -291,12 +360,29 @@ const UpcomingShows = () => {
           subtitle: event.subtitle,
           place: event.place,
           status,
-          link: (isPastEvent || event.status === 'full') ? undefined : '#',
+          link: (isPastEvent || event.status === 'full' || event.status === 'closed') ? undefined : '#',
+          originalEvent: event, // Keep reference to original event for filtering
         };
       });
 
-      setAllShows(formattedShows);
-      setUpcomingShows(formattedShows.slice(0, 4)); // Show first 4 by default
+      // Sort events by date (upcoming first)
+      const sortedShows = formattedShows.sort((a, b) => {
+        const dateA = new Date(a.originalEvent.date);
+        const dateB = new Date(b.originalEvent.date);
+        return dateA.getTime() - dateB.getTime();
+      });
+
+      setAllShows(sortedShows);
+      
+      // Show only events with status 'not yet' in upcoming shows (limited to 4)
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Reset time to start of day
+      const upcomingEvents = sortedShows.filter(show => 
+        show.originalEvent.status === 'not yet' && 
+        new Date(show.originalEvent.date) >= today
+      ).slice(0, 4);
+      
+      setUpcomingShows(upcomingEvents);
     };
     
     loadEvents();
@@ -647,7 +733,7 @@ const Footer = () => {
         <div className="mt-16 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
           <div className="flex flex-col items-center md:items-start space-y-2">
             <div className="flex items-center space-x-2">
-              <img src={chezMachaLogo} alt="CHEZ MACHA Logo" className="w-8 h-8 rounded-full" />
+              <img src={chezMachaLogo} alt="CHEZ MACHA Logo" className="w-16 h-16 rounded-full" />
             </div>
             <p className="text-sm text-gray-400 mt-4">2025 © CHEZ MACHA</p>
           </div>
