@@ -60,7 +60,7 @@ const CoinTipButton: React.FC<CoinTipButtonProps> = ({ className }) => {
       if (button.dataset.tipping === 'true') return;
       
       button.dataset.tipping = 'true';
-      const currentRotation = gsap.getProperty(button, 'rotate') || 0;
+      const currentRotation = Number(gsap.getProperty(button, 'rotate')) || 0;
       
       const duration = gsap.utils.mapRange(
         config.rotation.lower,
