@@ -8,6 +8,7 @@ import { Carousel } from '@/components/ui/carousel';
 import { getEvents, type Event, addNewsletterSubscriber } from '@/lib/google-sheets';
 import AttractButton from '@/components/ui/attract-button';
 import NewsletterModal from '@/components/ui/newsletter-modal';
+import CoinTipButton from '@/components/ui/coin-tip-button';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -257,6 +258,9 @@ const HeroSection = () => {
           
         </div>
       )}
+
+      {/* Coin Tip Button - always visible */}
+      <CoinTipButton />
     </div>
   );
 };

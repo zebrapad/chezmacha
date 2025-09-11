@@ -1,5 +1,8 @@
+@import url('https://unpkg.com/normalize.css') layer(normalize);
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
+@layer normalize, base, demo;
 
 /* Ensure logo has transparent background */
 img[src*="LOGO.svg"] {
@@ -13,6 +16,279 @@ img[alt*="CHEZ MACHA"], img[alt*="Logo"] {
   background-color: transparent !important;
   background: none !important;
   background-image: none !important;
+}
+
+/* Coin tip button styles */
+.font-handwriting {
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+/* Coin tip button specific styles */
+.coin-tip-button {
+  touch-action: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.coin-tip-button:hover {
+  background: #0d5bb8 !important;
+}
+
+.coin-tip-button:hover .coin {
+  transform: translate(-50%, -50%) rotateY(360deg) !important;
+  transition: transform 0.5s ease-in-out !important;
+}
+
+.coin-tip-button[data-tipping="false"]:active {
+  transform: rotate(-15deg) !important;
+  box-shadow: -0.5px 0.7px 1px rgba(0,0,0,0.14), -1.8px 2.3px 3.3px rgba(0,0,0,0.14), -4.6px 6px 8.5px rgba(0,0,0,0.14), -11.4px 14.6px 20.8px rgba(0,0,0,0.14) !important;
+}
+
+/* Ensure 3D transforms work properly */
+*,
+*::before,
+*::after {
+  transform-style: preserve-3d;
+}
+
+@layer demo {
+  :root {
+    --ru: 15;
+  }
+
+  [data-flipped='true'] .arrow {
+    opacity: 0;
+  }
+
+  .arrow {
+    display: inline-block;
+    opacity: 0.8;
+    position: fixed;
+    font-size: 0.875rem;
+    font-family: 'Gloria Hallelujah', cursive;
+    transition: opacity 0.26s 0.26s ease-out;
+  }
+
+  .arrow.arrow--instruction {
+    top: 50%;
+    left: 50%;
+    translate: -190% 150%;
+    rotate: -10deg;
+  }
+
+  .arrow.arrow--instruction svg {
+    color: hsl(0 0% 65%);
+    scale: 1 1;
+    top: 130%;
+    rotate: 20deg;
+    left: -10%;
+    width: 80%;
+    translate: 105% 40%;
+    position: absolute;
+  }
+
+  main {
+    scale: 1.2;
+    transform: translate3d(0, 0, 100vmax);
+    pointer-events: auto;
+  }
+
+  [aria-label] {
+    touch-action: none;
+    user-select: none;
+    -webkit-tap-highlight-color: #0000;
+    --bg: #1871f4;
+    background: var(--bg);
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: #fff;
+    font-family: inherit;
+    border: 1px solid color-mix(in oklch, var(--bg), #000 12%);
+    cursor: pointer;
+    transform-origin: 75% 50%;
+    transition: transform 0.26s, box-shadow 0.26s;
+    padding: 0;
+    --shadow-color: 0 0% 0%;
+    box-shadow: 0px 0.6px 0.7px hsl(var(--shadow-color) / 0.14),
+      0px 2.3px 2.6px -0.8px hsl(var(--shadow-color) / 0.14),
+      0px 5.9px 6.6px -1.7px hsl(var(--shadow-color) / 0.14),
+      0px 14.5px 16.3px -2.5px hsl(var(--shadow-color) / 0.14);
+    pointer-events: auto;
+    z-index: 1000;
+  }
+
+  [aria-label] .content {
+    align-items: center;
+    clip-path: inset(-100vmax 0 1px 0);
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    height: 100%;
+  }
+
+  [aria-label][data-tipping='false']:active {
+    transform: rotate(calc(var(--ru) * -1deg));
+    box-shadow: -0.5px 0.7px 1px hsl(var(--shadow-color) / 0.14),
+      -1.8px 2.3px 3.3px -0.8px hsl(var(--shadow-color) / 0.14),
+      -4.6px 6px 8.5px -1.7px hsl(var(--shadow-color) / 0.14),
+      -11.4px 14.6px 20.8px -2.5px hsl(var(--shadow-color) / 0.14);
+  }
+
+  [aria-label]:is(:focus-visible, :hover) {
+    --bg: color-mix(in oklch, #1871f4, #000 5%);
+  }
+
+  [aria-label]:is(:focus-visible, :hover) .purse {
+    rotate: y 360deg;
+    transition: rotate 0.26s 0.12s ease-out;
+  }
+
+  .purse {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+
+  .scene {
+    --thickness: 4;
+    display: inline-block;
+    width: 1.2lh;
+    aspect-ratio: 1;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 100vh;
+  }
+
+  .hole {
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    scale: 0;
+    transform-style: preserve-3d;
+    transform: translate3d(0, 0, calc(var(--thickness) * -2px));
+    transform-origin: 50% 70%;
+  }
+
+  .hole::before {
+    content: '';
+    position: absolute;
+    width: 125%;
+    height: 40%;
+    border-radius: 50%;
+    top: 70%;
+    left: 50%;
+    translate: -50% -50%;
+    background: black;
+    box-shadow: 0 2px hsl(0 0% 20%) inset;
+  }
+
+  .hole::after {
+    transform-style: preserve-3d;
+    content: '';
+    background: var(--bg);
+    height: 200%;
+    top: 0;
+    left: 50%;
+    translate: -50% 25%;
+    width: 121%;
+    position: absolute;
+    transform: translate3d(0, 0, calc(var(--thickness) * 5px));
+    mask: radial-gradient(
+      125% 32% at 50% 3%,
+      rgba(0, 0, 0, 0) 50%,
+      #fff 50%
+    );
+  }
+}
+
+.coin {
+  --depth: 2;
+  --detail: hsl(43 97% 46%);
+  --face: #ffdc02;
+  --side: #f4ae00;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: absolute;
+  translate: -50% -50%;
+  top: 50%;
+  left: 50%;
+  transform-style: preserve-3d;
+}
+
+.coin__core {
+  height: 100%;
+  width: calc(var(--depth) * 2px);
+  background: var(--side);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  transform: rotateY(90deg) rotateX(calc((90 - var(--rx, 0)) * -1deg));
+  transform-style: preserve-3d;
+}
+
+.coin__core--rotated {
+  --base: 90;
+  transform: rotateY(90deg) rotateX(calc((90 - var(--rx, 0)) * 1deg));
+}
+
+.coin__core::after,
+.coin__core::before {
+  content: '';
+  height: 100%;
+  width: calc(var(--depth) * 2px);
+  background: var(--side);
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.coin__core::after {
+  transform: rotateX(calc((var(--base, 0) - var(--rx, 0)) * 1deg));
+}
+
+.coin__core::before {
+  transform: rotateX(calc((var(--base, 0) - var(--rx, 0)) * -1deg));
+}
+
+.coin__face {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  background: var(--face);
+  display: grid;
+  place-items: center;
+  color: var(--detail);
+}
+
+.coin__face svg {
+  width: 65%;
+  scale: -1 1;
+  translate: -5% 0;
+}
+
+.coin__face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--side);
+  backface-visibility: hidden;
+}
+
+.coin__face--front {
+  transform: translate3d(0, 0, calc((var(--depth) * 1px) + 0.5px))
+    rotateY(180deg);
+}
+
+.coin__face--rear {
+  transform: translate3d(0, 0, calc((var(--depth) * -1px) - 0.5px));
 }
 
 @custom-variant dark (&:is(.dark *));
