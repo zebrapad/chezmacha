@@ -6,15 +6,12 @@ import { Button } from '@/components/ui/button';
 import { BookingModal } from '@/components/ui/booking-modal';
 import { Carousel } from '@/components/ui/carousel';
 import { getEvents, type Event, addNewsletterSubscriber } from '@/lib/google-sheets';
-import AttractButton from '@/components/ui/attract-button';
-import NewsletterModal from '@/components/ui/newsletter-modal';
 import CoinTipButton from '@/components/ui/coin-tip-button';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
-  const [isNewsletterModalOpen, setIsNewsletterModalOpen] = React.useState(false);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -63,17 +60,6 @@ const Header = () => {
             </a>
           </>
         )}
-        <AttractButton 
-          text="newsletter"
-          hoverText="let's go"
-          particleColor="#000000"
-          onClick={() => setIsNewsletterModalOpen(true)}
-          className="text-sm font-bold bg-yellow-500 hover:bg-yellow-600 border-2 border-yellow-500"
-          style={{ 
-            fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-            color: '#000000'
-          }}
-        />
       </nav>
       
       {/* Desktop Instagram Icon */}
@@ -193,11 +179,6 @@ const Header = () => {
         </div>
       )}
 
-      {/* Newsletter Modal */}
-      <NewsletterModal 
-        isOpen={isNewsletterModalOpen} 
-        onClose={() => setIsNewsletterModalOpen(false)} 
-      />
     </header>
   );
 };
